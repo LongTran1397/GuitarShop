@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="no-js"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/_layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #main-content},
+                                                ${session.PersonalInformation}
+                                               )}"> 
+<head>
+        <title>Thanh toán - Guitar Shop</title>
+</head>
+<body>
+<div id="main-content">
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Thanh toán</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+    <!-- Start Checkout Area --> 
+    <div class="container">
+        <form class="checkout_area row" id="checkoutForm">
+            <div class="col-lg-7">
+                <div class="checkout_section">
+                    <div class="title_head">
+                        <h3>Thông tin giao hàng</h3>
+                        <div th:if="${PersonalInformation.getEmail() == ''}">
+                            <p>Đã có tài khoản? <a th:href="@{/dang-nhap}">Đăng nhập</a></p>
+                        </div>
+
+                    </div>
+                    <div class="shipping_info">
+                        <div class="form-group">
+                            <label>Họ tên *</label>
+                            <input type="text" id="customerName" th:value="${PersonalInformation.getName()}">
+                            <label class="validation-message" id="customerNameError"></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Số điện thoại *</label>
+                                    <input type="text" id="customerPhone" th:value="${PersonalInformation.getPhone()}">
+                                    <label class="validation-message" id="customerPhoneError"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="customerEmail" th:value="${PersonalInformation.getEmail()}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ *</label>
+                            <input type="text" id="customerAddress" th:value="${PersonalInformation.getAddress()}">
+                            <label class="validation-message" id="customerAddressError"></label>
+                        </div>
+                        <div class="form-group">
+                            <label>Lời nhắn</label>
+                            <textarea type="text" id="customerMessage" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout_section">
+                    <div class="title_head">
+                        <h3>Phương thức thanh toán</h3>
+                    </div>
+                    <div class="payment_info">
+                        <div class="form-group">
+                            <label>
+                                <input type="radio" value="COD" name="method">
+                                Thanh toán tiền mặt khi nhận hàng
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="radio" value="Chuyển khoản" name="method">
+                                Chuyển khoản ngân hàng
+                            </label>
+                            <div id="bank_account_info">
+                                <p>
+                                    Chủ tài khoản: Trần Anh Tú<br />
+                                    Số tài khoản: 0123456789<br />
+                                    FPT Aptech - HCMC
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="checkout_section cart_detail">
+                    <div class="title_head">
+                        <h3>Chi tiết đơn hàng</h3>
+                        <a href="/gio-hang" class="edit_cart"><i class="fa fa-edit"></i>Chỉnh sửa</a>
+                    </div>
+                    <div class="cart_detail_info">
+                        <th:block th:each="item : ${session.sessionCart}">
+                            <div class="cart_detail_item row" th:with="product=${item.getValue().getProduct()}, quantity=${item.getValue().getQuantity()}">
+                                <div class="col-lg-7 col-6 item_name">
+                                    <h6><a th:href="@{'/chi-tiet/' + ${product.getMetadata()} + '-' + ${product.getId()}}" th:text="${product.getName() + ' (' + quantity + ')'}"></a></h6>
+                                </div>
+                                <div class="col-lg-5 col-6 item_price">
+                                    <h6 th:text="(${product.getDiscountAmount()} > 0) ?
+                                    ${#numbers.formatDecimal((quantity * product.getPrice() * (100 - product.getDiscountAmount()) / 100),0,'POINT',0,'COMMA')+'đ'} :
+                                    ${#numbers.formatDecimal((quantity * product.getPrice()),0,'POINT',0,'COMMA')+'đ'}"></h6>
+                                </div>
+                            </div>
+                        </th:block>
+                        <hr />
+                        <div class="total_info row">
+                            <div class="col-lg-7 col-6 item_name">
+                                <h6>Tạm tính:</h6>
+                            </div>
+                            <div class="col-lg-5 col-6 item_price">
+                                <h6 th:text="${#numbers.formatDecimal(session.sessionCartTotal,0,'POINT',0,'COMMA')+'đ'}"></h6>
+                            </div>
+                        </div>
+                        <div class="total_info row">
+                            <div class="col-lg-7 col-6 item_name">
+                                <h6>Phí vận chuyển:</h6>
+                            </div>
+                            <div class="col-lg-5 col-6 item_price">
+                                <h6>Miễn phí</h6>
+                            </div>
+                        </div>
+                        <div th:switch="${session.sessionDiscountCode != null}">
+                            <div th:case="true">
+                                <div class="total_info row">
+                                    <div class="col-lg-7 col-6 item_name">
+                                        <h6>Giảm giá:</h6>
+                                    </div>
+                                    <div class="col-lg-5 col-6 item_price">
+                                        <h6 th:text="${#numbers.formatDecimal((session.sessionDiscountCode.getDiscountAmount() * session.sessionCartTotal / 100),0,'POINT',0,'COMMA')+'đ'}"></h6>
+                                    </div>
+                                </div>
+                                <div class="total_info row">
+                                    <div class="col-6 item_name">
+                                        <h6>Tổng cộng:</h6>
+                                    </div>
+                                    <div class="col-6 item_price">
+                                        <h3 id="total" th:text="${#numbers.formatDecimal(session.sessionCartTotal * (100 - session.sessionDiscountCode.getDiscountAmount()) / 100,0,'POINT',0,'COMMA')+'đ'}"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:case="false">
+                                <div class="total_info row">
+                                    <div class="col-6 item_name">
+                                        <h6>Tổng cộng:</h6>
+                                    </div>
+                                    <div class="col-6 item_price">
+                                        <h3 id="total" th:text="${#numbers.formatDecimal(session.sessionCartTotal,0,'POINT',0,'COMMA')+'đ'}"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="total_info login_form">
+                            <div class="form-group">
+                                <button type="submit" class="primary-btn finish_checkout">Đặt hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- End Checkout Area -->   
+    <dialog class="success_dialog">
+        <button type="button" class="close closeDialog" data-dismiss="modal" title="Đóng">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="dialog_wrapper">
+            <p>
+            <h4>Đặt hàng thành công!</h4>
+            </p>
+            <p>Guitar Shop trân trọng cảm ơn sự lựa chọn của bạn!</p>
+            <div class="dialog_navigation">
+                <a href="/" class="primary-btn">Về trang chủ</a>
+            </div>
+        </div>
+    </dialog> 
+</div>
+</body>
+</html>
