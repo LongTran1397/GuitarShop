@@ -19,4 +19,14 @@ public class LoginController {
         return modelAndView;
     }
 
+    @RequestMapping(value={"/admin/dang-nhap"}, method = RequestMethod.GET)
+    public ModelAndView adminLogin(@RequestParam(value = "error", required = false) String error) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/admin/login");
+        if (error != null) {
+            modelAndView.addObject("error", "Email và mật mã không hợp lệ!");
+        }
+        return modelAndView;
+    }
+
 }

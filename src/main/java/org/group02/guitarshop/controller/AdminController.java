@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class AdminController {
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/chart", method = RequestMethod.GET)
     public String productDetail() {
-        return "_admin_layout";
+        return "/admin/chart";
     }
 }

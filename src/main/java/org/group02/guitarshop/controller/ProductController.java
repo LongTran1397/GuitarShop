@@ -1,17 +1,26 @@
 package org.group02.guitarshop.controller;
 
+import org.group02.guitarshop.entity.Category;
+import org.group02.guitarshop.entity.Manufacturer;
 import org.group02.guitarshop.entity.Product;
+import org.group02.guitarshop.service.CategoryService;
+import org.group02.guitarshop.service.ManufacturerService;
 import org.group02.guitarshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -23,28 +32,77 @@ public class ProductController {
     public String productDetail(String name, Integer id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
         productService.GetProductExtraInfo(id);
-        model.addAttribute("TotalRate",productService.getTotalRate());
-        model.addAttribute("ListCountRate",productService.getListCountRate());
-        model.addAttribute("ListRelativeProduct",productService.getListRelatedProducts());
-        model.addAttribute("AverageRate",productService.getAverageRate());
-        model.addAttribute("ListImage",productService.getProductImage());
+        model.addAttribute("TotalRate", productService.getTotalRate());
+        model.addAttribute("ListCountRate", productService.getListCountRate());
+        model.addAttribute("ListRelativeProduct", productService.getListRelatedProducts());
+        model.addAttribute("AverageRate", productService.getAverageRate());
+        model.addAttribute("ListImage", productService.getProductImage());
         return "main/product-detail";
     }
 
     @GetMapping("/admin/viewProducts")
-    public String viewProduct(Model model){
+    public String viewProduct(Model model) {
         List<Product> productList = productService.listAll();
         model.addAttribute("productList", productList);
         return "admin/viewProducts";
     }
 
-    @GetMapping("admin/createProduct")
+    @ModelAttribute(name = "CategoryList")
+    public List<Category> listCategoryName(){
+        return productService.listAllCategory();
+    }
+
+    @ModelAttribute(name = "ManufacturerList")
+    public List<Manufacturer> listManufacturerName(){
+        return productService.listAllManufacturer();
+    }
+
+    @GetMapping("/admin/createProduct")
     public String createMovie(ModelMap model){
-        model.addAttribute("movieDto", movieDto);
-        model.addAttribute("action", "/saveMovie");
-        return "admin/createMovie";
+        model.addAttribute("product", new Product());
+        model.addAttribute("action", "/saveProduct");
+        return "admin/addProduct";
     }
 //
+//    @PostMapping("/saveMovie")
+//    public String saveMovie(ModelMap map, @ModelAttribute("movieDto") MovieDetailsDto movieDto) {
+//        Optional<MovieDetails> optionalMovie = movieService.findById(movieDto.getMovieid());
+//        MovieDetails movie = null;
+//        String image = "blankmovie.jpg";
+//        Path path = Paths.get("src/main/resources/static/images/uploads/");
+//        if (optionalMovie.isPresent()) {
+//            //update
+//            if (movieDto.getImage().isEmpty()) {
+//                image = optionalMovie.get().getImage();
+//            } else {
+//                try {
+//                    InputStream inputStream = movieDto.getImage().getInputStream();
+//                    Files.copy(inputStream, path.resolve(movieDto.getImage().getOriginalFilename()),
+//                            StandardCopyOption.REPLACE_EXISTING);
+//                    image = movieDto.getImage().getOriginalFilename().toString();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } else {
+//            //add new
+//            if (!movieDto.getImage().isEmpty()) {
+//                try {
+//                    InputStream inputStream = movieDto.getImage().getInputStream();
+//                    Files.copy(inputStream, path.resolve(movieDto.getImage().getOriginalFilename()),
+//                            StandardCopyOption.REPLACE_EXISTING);
+//                    image = movieDto.getImage().getOriginalFilename().toString();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        movie = new MovieDetails(movieDto.getMovieid(), movieDto.getMoviename(), movieDto.getDirector(), movieDto.getDuration(),
+//                movieDto.getGenre(), movieDto.getDescription(), movieDto.getRating(), image);
+//        movieService.save(movie);
+//        return "redirect:/viewMovies";
+//    }
+
 //    @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
 //    public ModelAndView saveNewProduct(@ModelAttribute Product product, BindingResult result) {
 //        ModelAndView mv = new ModelAndView("redirect:/home");

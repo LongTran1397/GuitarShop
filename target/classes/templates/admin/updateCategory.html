@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html   th:replace="~{/_admin_layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #content}
+                                               )}"
+        xmlns:th="http://www.thymeleaf.org">
+
+<title id="title">Admin | Cập Nhật Danh mục SP</title>
+<div id="content" align="center">
+
+    <h1 class="h3 mb-2 text-gray-800">Cập nhật Danh mục SP</h1>
+    <form style="width: 50%" action="#" th:action="@{/saveCategory}" th:object="${category}" method="post" class="user">
+        <hr>
+        <div class="form-group">
+            <p>ID: </p>
+            <input type="text" th:field="*{id}" readonly="readonly" class="form-control form-control-user" placeholder="ID">
+        </div>
+        <div class="form-group">
+            <p>Question: </p>
+            <input type="text" th:field="*{name}" class="form-control form-control-user" placeholder="Question"required="true" autofocus>
+        </div>
+        <div class="form-group">
+            <p>Answer: </p>
+            <input type="text" th:field="*{metadata}" class="form-control form-control-user" placeholder="Answer" required="true">
+        </div>
+        <button type="submit" class="btn-lg btn-success" value="submit">Cập nhật</button>
+        <hr>
+    </form>
+</div>
+
+<!-- End of Content Wrapper -->
+
+</html>

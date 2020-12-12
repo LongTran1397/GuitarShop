@@ -2,10 +2,11 @@ package org.group02.guitarshop.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.group02.guitarshop.entity.Product;
-import org.group02.guitarshop.entity.ProductImage;
-import org.group02.guitarshop.entity.Rate;
+import org.group02.guitarshop.entity.*;
+import org.group02.guitarshop.repository.CategoryRepository;
+import org.group02.guitarshop.repository.ManufacturerRepository;
 import org.group02.guitarshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,25 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
+
     public List<ProductImage> ListImage;
     public List<Product> ListRelatedProducts;
     public int TotalRate;
     public double AverageRate=0;
     public int[] ListCountRate;
+
+    public List<Category> listAllCategory(){
+        return (List<Category>)categoryRepository.findAll();
+    }
+
+    public List<Manufacturer> listAllManufacturer(){
+        return (List<Manufacturer>)manufacturerRepository.findAll();
+    }
 
     public List<Product> getListRelatedProducts() {
         return ListRelatedProducts;
@@ -54,6 +69,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> listAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public Optional<Product> findById(int id) {
+        return repository.findById(id);
     }
 
     @Override

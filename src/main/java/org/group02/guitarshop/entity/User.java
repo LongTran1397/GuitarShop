@@ -40,9 +40,6 @@ public class User {
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
     private String phone;
 
-    @Column(name = "Participation_Time", nullable = true)
-    private Timestamp participationTime;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "UserRole", joinColumns = @JoinColumn(name = "User_Id"), inverseJoinColumns = @JoinColumn(name = "Role_Id"))
     private Set<Role> roles;

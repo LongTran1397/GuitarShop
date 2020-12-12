@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("user").anyRequest()
+                .antMatchers("/admin/**").hasAuthority("admin").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/dang-nhap")
                 .defaultSuccessUrl("/")

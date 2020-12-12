@@ -87,4 +87,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         return styleList;
     }
+
+    @Override
+    public void delete(int id){
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void save(Category category){
+        repository.save(category);
+    }
 }

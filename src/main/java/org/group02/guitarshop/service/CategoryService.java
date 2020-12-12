@@ -15,4 +15,6 @@ public interface CategoryService {
     List<Product> getListProduct(int id, String manufacturer, String style, int minPrice, int maxPrice);
     List<String> getListOfManufacturerNames(int id);
     List<String> getListOfStyleNames(int id);
+    void delete(int id);
+    void save(Category category);
 }
