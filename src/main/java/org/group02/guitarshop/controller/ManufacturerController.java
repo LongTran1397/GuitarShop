@@ -1,8 +1,6 @@
 package org.group02.guitarshop.controller;
 
-import org.group02.guitarshop.entity.Category;
 import org.group02.guitarshop.entity.Manufacturer;
-import org.group02.guitarshop.service.CategoryService;
 import org.group02.guitarshop.service.ManufacturerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

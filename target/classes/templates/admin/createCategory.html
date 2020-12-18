@@ -1,24 +1,34 @@
 <!DOCTYPE html>
-<html   th:replace="~{/_admin_layout :: main-fragment(
+<html th:replace="~{/_admin_layout :: main-fragment(
                                                 ~{::title},
                                                 ~{:: #content}
                                                )}"
-        xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 
-<title id="title">Admin | Thêm Danh mục SP</title>
+<title id="title">Admin | Thêm Danh mục</title>
 <div id="content" align="center">
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Thêm Danh mục mới</h1>
-    <form style="width: 50%" action="#" th:action="@{/saveCategory}" th:object="${category}" method="post" class="user">
+    <form style="width: 50%" th:action="@{/saveCategory}" th:object="${category}" method="post" class="user">
         <hr>
-        <div class="form-group">
-            <input type="text" th:field="*{name}" class="form-control form-control-user" placeholder="Question" required="true" autofocus>
-        </div>
-        <div class="form-group">
-            <input type="text" th:field="*{metadata}" class="form-control form-control-user" placeholder="Answer" required="true">
-        </div>
-        <button type="submit" class="btn-lg btn-success" value="submit">Thêm</button>
+        <table style="width: 85%;border-collapse: separate; border-spacing: 0 15px;">
+            <tr>
+                <td><label>Tên Danh mục: </label></td>
+                <td><input type="text" th:field="*{name}" class="form-control form-control-user"
+                           placeholder="Tên Danh mục" required="true" autofocuss></td>
+            </tr>
+            <tr>
+                <td><label>Metadata: </label></td>
+                <td><input type="text" th:field="*{metadata}" class="form-control form-control-user"
+                           placeholder="Metadata"
+                           required="true"></td>
+            </tr>
+            <tr align="center">
+                <td colspan="2">
+                    <button type="submit" class="btn-lg btn-success" value="submit">Thêm</button></td>
+            </tr>
+        </table>
         <hr>
     </form>
 </div>

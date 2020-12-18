@@ -6,14 +6,12 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.sql.Timestamp;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "Person")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_Id", nullable = false)
@@ -33,12 +31,20 @@ public class User {
     @NotEmpty(message = "Vui lòng nhập mật mã")
     private String password;
 
+    @Column(name = "verificationCode", updatable = false)
+    String verificationCode;
+
+    private boolean enable;
+
     @Column(name = "Address", nullable = true, columnDefinition="nvarchar(1255)")
     private String address;
 
     @Column(name = "Phone", nullable = true, length = 20)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
     private String phone;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "UserRole", joinColumns = @JoinColumn(name = "User_Id"), inverseJoinColumns = @JoinColumn(name = "Role_Id"))

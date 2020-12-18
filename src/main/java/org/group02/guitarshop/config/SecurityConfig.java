@@ -45,21 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("admin").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/dang-nhap")
-                .defaultSuccessUrl("/")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .failureUrl("/dang-nhap?error=1")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/dang-xuat"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
-                .accessDeniedPage("/access-denied")
-                .and()
-                .rememberMe().key("secretKey");
-        http.formLogin().defaultSuccessUrl("/");
+                    .antMatchers("/**").permitAll()
+                    .antMatchers("/admin/**").hasAuthority("admin")
+                        .anyRequest().authenticated()
+                        .and()
+                .formLogin()
+                    .loginPage("/dang-nhap")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .defaultSuccessUrl("/success")
+                    .failureUrl("/dang-nhap?error=1")
+                    .and()
+                .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/dang-xuat"))
+                    .logoutSuccessUrl("/").and().exceptionHandling()
+                    .and()
+                .rememberMe().key("secretKey")
+                    .and()
+                .csrf().disable();
+
     }
 
     @Override

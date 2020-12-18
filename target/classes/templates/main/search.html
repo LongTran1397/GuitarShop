@@ -38,7 +38,7 @@
                 <div class="row">
                     <!--/*@thymesVar id="result" type=""*/-->
                     <th:block th:each="product : ${pageListProduct.pageList}">
-                        <a th:href="@{~/chi-tiet/(name=${product.metadata},id=${product.id})}">
+                        <a th:href="@{~/chi-tiet/id=${product.id}}">
                             <div class="col-lg-3 col-md-6 col-sm-4 col-6">
                                 <div class="single-product">
                                     <img class="img-fluid" th:src="${product.imageThumbnail}" alt="">

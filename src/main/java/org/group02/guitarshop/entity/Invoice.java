@@ -1,6 +1,7 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -37,6 +38,7 @@ public class Invoice {
     @Column(name = "payment_method")
     private String paymentMethod;
 
+    @CreationTimestamp
     @Column(name = "created_time")
     private Timestamp createdTime;
 

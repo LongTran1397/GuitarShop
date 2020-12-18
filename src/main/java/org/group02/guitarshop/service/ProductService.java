@@ -23,4 +23,6 @@ public interface ProductService {
     List<ProductImage> getProductImage();
     List<Product> listAll();
     Optional<Product> findById(int id);
+    Product save(Product product);
+    void deleteById(int id);
 }

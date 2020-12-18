@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class ProductController {
     private ProductService productService;
 
     @RequestMapping(value = "/chi-tiet", method = RequestMethod.GET)
-    public String productDetail(String name, Integer id, Model model) {
+    public String productDetail(Integer id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
         productService.GetProductExtraInfo(id);
         model.addAttribute("TotalRate", productService.getTotalRate());
@@ -60,99 +62,40 @@ public class ProductController {
     @GetMapping("/admin/createProduct")
     public String createMovie(ModelMap model){
         model.addAttribute("product", new Product());
-        model.addAttribute("action", "/saveProduct");
         return "admin/addProduct";
     }
-//
-//    @PostMapping("/saveMovie")
-//    public String saveMovie(ModelMap map, @ModelAttribute("movieDto") MovieDetailsDto movieDto) {
-//        Optional<MovieDetails> optionalMovie = movieService.findById(movieDto.getMovieid());
-//        MovieDetails movie = null;
-//        String image = "blankmovie.jpg";
-//        Path path = Paths.get("src/main/resources/static/images/uploads/");
-//        if (optionalMovie.isPresent()) {
-//            //update
-//            if (movieDto.getImage().isEmpty()) {
-//                image = optionalMovie.get().getImage();
-//            } else {
-//                try {
-//                    InputStream inputStream = movieDto.getImage().getInputStream();
-//                    Files.copy(inputStream, path.resolve(movieDto.getImage().getOriginalFilename()),
-//                            StandardCopyOption.REPLACE_EXISTING);
-//                    image = movieDto.getImage().getOriginalFilename().toString();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } else {
-//            //add new
-//            if (!movieDto.getImage().isEmpty()) {
-//                try {
-//                    InputStream inputStream = movieDto.getImage().getInputStream();
-//                    Files.copy(inputStream, path.resolve(movieDto.getImage().getOriginalFilename()),
-//                            StandardCopyOption.REPLACE_EXISTING);
-//                    image = movieDto.getImage().getOriginalFilename().toString();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        movie = new MovieDetails(movieDto.getMovieid(), movieDto.getMoviename(), movieDto.getDirector(), movieDto.getDuration(),
-//                movieDto.getGenre(), movieDto.getDescription(), movieDto.getRating(), image);
-//        movieService.save(movie);
-//        return "redirect:/viewMovies";
-//    }
 
-//    @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-//    public ModelAndView saveNewProduct(@ModelAttribute Product product, BindingResult result) {
-//        ModelAndView mv = new ModelAndView("redirect:/home");
-//
-//        if (result.hasErrors()) {
-//            return new ModelAndView("error");
-//        }
-//        boolean isAdded = productService.addProduct(product);
-//        if (isAdded) {
-//            mv.addObject("message", "New product successfully added");
-//        } else {
-//            return new ModelAndView("error");
-//        }
-//
-//        return mv;
-//    }
-//
-//    @RequestMapping(value = "/editProduct/{id}", method = RequestMethod.GET)
-//    public ModelAndView displayEditProductForm(@PathVariable Long id) {
-//        ModelAndView mv = new ModelAndView("/editProduct");
-//        Product product = productService.getProductById(id);
-//        mv.addObject("headerMessage", "Edit Product Details");
-//        mv.addObject("product", product);
-//        return mv;
-//    }
-//
-//    @RequestMapping(value = "/editProduct/{id}", method = RequestMethod.POST)
-//    public ModelAndView saveEditedProduct(@ModelAttribute Product product, BindingResult result) {
-//        ModelAndView mv = new ModelAndView("redirect:/home");
-//
-//        if (result.hasErrors()) {
-//            System.out.println(result.toString());
-//            return new ModelAndView("error");
-//        }
-//        boolean isSaved = productService.addProduct(product);
-//        if (!isSaved) {
-//
-//            return new ModelAndView("error");
-//        }
-//
-//        return mv;
-//    }
-//
-//    @RequestMapping(value = "/deleteProduct/{id}", method = RequestMethod.GET)
-//    public ModelAndView deleteProductById(@PathVariable Long id) {
-//        boolean isDeleted = productService.removeProduct(id);
-//        System.out.println("Product deletion respone: " + isDeleted);
-//        ModelAndView mv = new ModelAndView("redirect:/home");
-//        return mv;
-//
-//    }
+    @GetMapping("/admin/updateProduct/{id}")
+    public ModelAndView updateProduct(@PathVariable(name = "id") int id){
+        ModelAndView mav = new ModelAndView("/admin/updateProduct");
+        Product product = productService.getProductById(id);
+        mav.addObject("product", product);
+        return mav;
+    }
 
+    @PostMapping("/admin/saveProduct")
+    public String saveCategory(@ModelAttribute("product") Product product,
+                               @RequestParam("fileImage")MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        product.setImageThumbnail(fileName);
+        Product savedProduct = productService.save(product);
+        String uploadDir = "src/main/resources/static/img/products/" + savedProduct.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
+        }
+        try(InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        }catch (IOException e){
+            throw new IOException("Không Upload được File: " + fileName);
+        }
+        return "redirect:/admin/viewProducts";
+    }
+
+    @GetMapping("/admin/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable(name = "id") int id){
+        productService.deleteById(id);
+        return "redirect:/admin/viewProducts";
+    }
 }

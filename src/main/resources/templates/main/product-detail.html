@@ -29,11 +29,11 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="s_Product_carousel">
                         <div class="single-prd-item">
-                            <img alt="" class="img-fluid" th:src="${product.getImageThumbnail()}">
+                            <img alt="" class="img-fluid" th:src="${product.getImagePath()}">
                         </div>
                         <th:block th:each="item: ${ListImage}">
                             <div class="single-prd-item">
-                                <img alt="" class="img-fluid" th:src="${item.getData()}" >
+                                <img alt="" class="img-fluid" th:src="${'/img/products/' + item.getIdProduct() +'/' +item.getData()}" >
                             </div>
                         </th:block>
                     </div>
@@ -222,10 +222,10 @@
             </div>
             <div class="row">
                 <th:block th:each="product:${ListRelativeProduct}">
-                    <a th:href="@{~/chi-tiet/(name=${product.metadata},id=${product.id})}">
+                    <a th:href="@{~/chi-tiet/(id=${product.id})}">
                         <div class="col-lg-3 col-md-4 col-6">
                             <div class="single-product">
-                                <img alt="" class="img-fluid" th:src="${product.getImageThumbnail()}">
+                                <img alt="" class="img-fluid" th:src="${product.getImagePath()}">
                                 <div class="product-details s_product_text">
                                     <h6 th:text="${product.getName()}">
                                     </h6>

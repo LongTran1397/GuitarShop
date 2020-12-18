@@ -1,6 +1,8 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -22,7 +24,7 @@ public class Product {
     @Column(name = "price", nullable = true)
     private Double price;
 
-    @Column(name = "discount_amount", nullable = true)
+    @Column(name = "discount_amount")
     private Integer discountAmount;
 
     @Column(name = "average_rate", nullable = true, precision = 0)
@@ -35,7 +37,6 @@ public class Product {
     @Column(name = "quantity", nullable = true)
     private Integer quantity;
 
-
     @Column(name = "description", nullable = true)
     private String description;
 
@@ -45,19 +46,15 @@ public class Product {
     @Column(name = "warranty", nullable = true)
     private String warrantyPeriod;
 
-
+    @CreationTimestamp
     @Column(name = "created_time", nullable = true)
     private Timestamp createdTime;
-
 
     @Column(name = "category_id", nullable = true)
     private Integer idCategory;
 
     @Column(name = "manufacturer_id", nullable = true)
     private Integer idManufacturer;
-
-    @Column(name = "metadata", nullable = true)
-    private String metadata;
 
     @OneToMany(mappedBy = "productByIdProduct")
     private Collection<InvoiceDetail> invoiceDetailsById;
@@ -75,4 +72,13 @@ public class Product {
 
     @OneToMany(mappedBy = "productByIdProduct")
     private Collection<Rate> ratesById;
+
+    @Transient
+    public String getImagePath(){
+        if (imageThumbnail == "")
+            return "/img/products/0/default_img.jpg";
+        else{
+            return "/img/products/" + id + "/" + imageThumbnail;
+        }
+    }
 }

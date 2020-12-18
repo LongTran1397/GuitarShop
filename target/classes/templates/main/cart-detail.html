@@ -45,7 +45,7 @@
                                             <div class="media">
                                                 <img alt="" class="img-fluid" th:src="${product.imageThumbnail}">
                                                 <div class="media-body">
-                                                    <a th:href="@{~/chi-tiet/(name=${product.metadata},id=${product.id})}">
+                                                    <a th:href="@{~/chi-tiet/id=${product.id}}">
                                                         <h5 th:text="${product.name}"></h5>
                                                     </a>
                                                     <a class="delete_item" th:data-id="${product.id}">Xoá</a>

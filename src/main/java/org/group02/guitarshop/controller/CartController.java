@@ -41,7 +41,6 @@ public class CartController {
     public String viewDetail(Model model) {
         DiscountCode discountCode = new DiscountCode();
         model.addAttribute("discountCode",discountCode);
-
         return "/main/cart-detail";
     }
 
