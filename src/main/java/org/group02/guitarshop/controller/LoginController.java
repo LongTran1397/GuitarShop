@@ -31,15 +31,7 @@ public class LoginController {
     }
 
     @RequestMapping("/success")
-    public void loginPageRedirect(HttpServletRequest request, HttpServletResponse response, Authentication authResult) throws IOException, ServletException {
-
-        String role =  authResult.getAuthorities().toString();
-
-        if(role.contains("admin")){
-            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin/viewProducts"));
-        }
-        else if(role.contains("user")) {
-            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
-        }
+    public String loginPageRedirect(){
+        return "redirect:/";
     }
 }

@@ -54,7 +54,7 @@
                                title="Cập nhật Nhà SX">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{'/deleteManufacturer/' + ${c.id}}" class="btn btn-sm btn-danger"
+                            <a th:href="@{'/deleteManufacturer/' + ${c.id}}" onclick="if(!(confirm('Bạn có chắc muốn xóa NSX này?'))) return false" class="btn btn-sm btn-danger"
                                title="Xóa Nhà SX">
                                 <i class="fas fa-trash"></i>
                             </a>

@@ -90,9 +90,14 @@
                                aria-haspopup="true" aria-expanded="false"><h6 th:text="${PersonalInformation.getName()}"></h6>
                             </a>
                             <ul>
-                                <li class="nav-item" style="margin-left: 0px">
-                                    <a class="nav-link" th:href="@{/profile}">
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/profile}" style="margin-left: 0px">
                                         <i class="fa fa-id-card"></i> Thông tin
+                                    </a>
+                                </li>
+                                <li sec:authorize="hasAuthority('admin')" class="nav-item">
+                                    <a class="nav-link" th:href="@{/admin/viewProducts}">
+                                        <i class="fa fa-bar-chart"></i> Quản lý
                                     </a>
                                 </li>
                                 <li class="nav-item">
