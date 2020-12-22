@@ -1,6 +1,7 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -10,18 +11,19 @@ import java.util.Set;
 
 @Data
 @Entity
+@DynamicUpdate
 @Table(name = "Person")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "User_Id", nullable = false)
+    @Column(name = "User_Id", nullable = false, updatable = false)
     private int user_Id;
 
     @Column(name = "Name", nullable = true, columnDefinition="nvarchar(255)")
     @NotEmpty(message = "Vui lòng nhập tên")
     private String name;
 
-    @Column(name = "Email", nullable = true, length = 255)
+    @Column(name = "Email", nullable = true, length = 255, updatable = false)
     @Email(message = "Vui lòng nhập vào địa chỉ email hợp lệ")
     @NotEmpty(message = "Vui lòng nhập email")
     private String email;

@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +76,7 @@ public class ProductController {
 
     @PostMapping("/admin/saveProduct")
     public String saveCategory(@ModelAttribute("product") Product product,
-                               @RequestParam("fileImage")MultipartFile multipartFile) throws IOException {
+                               @RequestParam("fileImage")MultipartFile multipartFile , RedirectAttributes ra) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         product.setImageThumbnail(fileName);
         Product savedProduct = productService.save(product);
@@ -90,12 +91,14 @@ public class ProductController {
         }catch (IOException e){
             throw new IOException("Không Upload được File: " + fileName);
         }
+        ra.addFlashAttribute("message", "Đã lưu Sản phẩm");
         return "redirect:/admin/viewProducts";
     }
 
     @GetMapping("/admin/deleteProduct/{id}")
-    public String deleteProduct(@PathVariable(name = "id") int id){
+    public String deleteProduct(@PathVariable(name = "id") int id, RedirectAttributes ra){
         productService.deleteById(id);
+        ra.addFlashAttribute("message", "Đã xóa Sản phẩm có ID = "+id);
         return "redirect:/admin/viewProducts";
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 
 @Controller
@@ -31,8 +33,9 @@ public class CategoryController {
     }
 
     @PostMapping("/saveCategory")
-    public String saveCategory(@ModelAttribute("category") Category category){
+    public String saveCategory(@ModelAttribute("category") Category category, RedirectAttributes ra){
         categoryService.save(category);
+        ra.addFlashAttribute("message", "Đã lưu danh mục");
         return "redirect:admin/viewCategories";
     }
 
@@ -44,9 +47,10 @@ public class CategoryController {
         return mav;
     }
 
-    @GetMapping("/deleteCategory/{id}")
-    public String deleteCategory(@PathVariable(name = "id") int id){
+    @RequestMapping(value = "/deleteCategory/{id}", method = {RequestMethod.DELETE, RequestMethod.GET})
+    public String deleteCategory(@PathVariable(name = "id") int id, RedirectAttributes ra){
         categoryService.delete(id);
+        ra.addFlashAttribute("message", "Đã xóa danh mục có ID = "+ id);
         return "redirect:/admin/viewCategories";
     }
 

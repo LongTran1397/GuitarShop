@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -33,8 +34,9 @@ public class ManufacturerController {
     }
 
     @PostMapping("/saveManufacturer")
-    public String saveManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer){
+    public String saveManufacturer(@ModelAttribute("manufacturer") Manufacturer manufacturer, RedirectAttributes ra){
         manufacturerService.save(manufacturer);
+        ra.addFlashAttribute("message", "Đã lưu Nhà sản xuất");
         return "redirect:admin/viewCategories";
     }
 
@@ -47,8 +49,9 @@ public class ManufacturerController {
     }
 
     @GetMapping("/deleteManufactuer/{id}")
-    public String deleteManufacturer(@PathVariable(name = "id") int id){
+    public String deleteManufacturer(@PathVariable(name = "id") int id, RedirectAttributes ra){
         manufacturerService.delete(id);
+        ra.addFlashAttribute("message", "Đã xóa NSX có ID = "+id);
         return "redirect:/admin/viewCategories";
     }
 }

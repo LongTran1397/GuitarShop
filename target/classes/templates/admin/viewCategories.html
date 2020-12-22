@@ -4,7 +4,6 @@
                                                 ~{:: #content}
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
-
 <title id="title">Admin | Danh mục SP</title>
 <div id="content">
 
@@ -14,13 +13,25 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-                <a th:att href="/admin/createCategory" class="btn btn-success btn-icon-split">
+            <a th:att href="/admin/createCategory" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-plus-square"></i>
                     </span>
-                    <span class="text">Thêm Danh mục mới</span>
-                </a>
+                <span class="text">Thêm Danh mục mới</span>
+            </a>
         </div>
+        <span th:if="${message}">
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Note: </strong>[[${message}]].
+            </div>
+        </span>
+        <span th:if="${error}">
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Note: </strong>[[${message}]].
+            </div>
+        </span>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -42,7 +53,8 @@
                                title="Cập nhật Danh mục">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{'/deleteCategory/' + ${c.id}}" class="btn btn-sm btn-danger"
+                            <a th:href="@{'/deleteCategory/' + ${c.id}}" data-toggle="modal" data-target="#deleteModal"
+                               id="btnDelete" class="btn btn-sm btn-danger"
                                title="Xóa danh mục">
                                 <i class="fas fa-trash"></i>
                             </a>
@@ -55,13 +67,41 @@
     </div>
     <!-- /.container-fluid -->
 
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xoá danh mục</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc muốn xóa Danh mục này?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-danger" id="delRef">Xóa</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('document').ready(function () {
+            $('#btnDelete').on('click', function (event){
+                event.preventDefault();
+                var href = document.getElementById("btnDelete").href;
+                $('#deleteModal #delRef').attr('href', href);
+                $('#deleteModal').modal();
+            })
+        });
+    </script>
 </div>
 
 <!-- End of Content Wrapper -->
 
 </html>
-<script>
-    window.setTimeout(function () {
-        $("#alert").fadeTo(500, 0)
-    }, 1500);
-</script>
+
+

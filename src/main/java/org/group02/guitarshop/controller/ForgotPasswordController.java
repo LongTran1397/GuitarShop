@@ -40,15 +40,15 @@ public class ForgotPasswordController {
             userService.updateResetPasswordToken(token, email);
             String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
-            model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
+            model.addAttribute("message", "GuitarShop đã gửi đường dẫn Reset Mật khẩu tới Email của bạn.");
 
         } catch (IOException ex) {
             model.addAttribute("error", ex.getMessage());
         } catch (MessagingException e) {
-            model.addAttribute("error", "Error while sending email");
+            model.addAttribute("error", "Không gửi đc Email.");
         }
 
-        return "main/forgot_password_form";
+        return "main/message";
     }
 
     public void sendEmail(String recipientEmail, String link)
@@ -56,18 +56,17 @@ public class ForgotPasswordController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("contact@shopme.com", "Shopme Support");
+        helper.setFrom("guitarshop@gmail.com", "GuitarShop");
         helper.setTo(recipientEmail);
 
-        String subject = "Here's the link to reset your password";
+        String subject = "Guitar Shop - Reset Mật khẩu";
 
-        String content = "<p>Hello,</p>"
-                + "<p>You have requested to reset your password.</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><a href=\"" + link + "\">Change my password</a></p>"
+        String content = "<p>Chào bạn,</p>"
+                + "<p>Chúng tôi đã nhận được yêu cầu Reset Mật khẩu của bạn.</p>"
+                + "<p>Click vào link bên dưới để đổi mật khẩu:</p>"
+                + "<p><a href=\"" + link + "\">Reset Mật khẩu</a></p>"
                 + "<br>"
-                + "<p>Ignore this email if you do remember your password, "
-                + "or you have not made the request.</p>";
+                + "<p>Bỏ qua Mail này nếu bạn đã đăng nhập được hoặc bạn không gửi yêu cầu Reset mật khảu.</p>";
 
         helper.setSubject(subject);
 
@@ -80,12 +79,10 @@ public class ForgotPasswordController {
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
         User user = userService.getByResetPasswordToken(token);
         model.addAttribute("token", token);
-
         if (user == null) {
-            model.addAttribute("message", "Invalid Token");
-            return "message";
+            model.addAttribute("message", "Token không tồn tại!!!");
+            return "main/message";
         }
-
         return "main/reset_password_form";
     }
 
@@ -95,14 +92,17 @@ public class ForgotPasswordController {
         String password = request.getParameter("password");
 
         User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("title", "Reset your password");
+        model.addAttribute("title", "Reset mật khẩu");
 
         if (user == null) {
-            model.addAttribute("message", "Invalid Token");
+            model.addAttribute("message", "Token không tồn tại!!!");
+            return "main/message";
         } else {
             userService.updatePassword(user, password);
-            model.addAttribute("message", "You have successfully changed your password.");
+
+            model.addAttribute("message", "Bạn đã đổi mật khẩu thành công!!!");
         }
-        return "main/reset_password_form";
+
+        return "main/message";
     }
 }

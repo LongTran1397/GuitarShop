@@ -1,6 +1,7 @@
 package org.group02.guitarshop.service;
 
 import net.bytebuddy.utility.RandomString;
+import org.group02.guitarshop.entity.Category;
 import org.group02.guitarshop.entity.Role;
 import org.group02.guitarshop.entity.User;
 import org.group02.guitarshop.repository.RoleRepository;
@@ -17,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Transactional
 @Service("userService")
@@ -46,10 +48,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUser_Id(id);
     }
 
-    public User findUserByVerificationCode(String code) {
-        return userRepository.findByVerificationCode(code);
-    }
-
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Role userRole = roleRepository.findByRoleName("user");
@@ -60,8 +58,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    public void save(User user){
+        userRepository.save(user);
+    }
+
     public void sendVerificationEmail(User user, String siteURL) throws UnsupportedEncodingException, MessagingException {
-        String subject = "Xác nhận tài khoản GuitarShop";
+        String subject = "GuitarShop - Xác nhận tài khoản";
         String senderName = "GuitarShop";
         String mailContent = "<p>Xin chào " + user.getName() +",</p>";
         mailContent += "<p>Click vào link dưới đây để xác nhận tài khoản của bạn:</p>";
@@ -109,5 +111,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodedPassword);
         user.setResetPasswordToken(null);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<User> listAll() {
+        return userRepository.findAll();
     }
 }

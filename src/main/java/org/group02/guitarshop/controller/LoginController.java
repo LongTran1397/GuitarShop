@@ -1,5 +1,6 @@
 package org.group02.guitarshop.controller;
 
+import org.group02.guitarshop.entity.Manufacturer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -40,6 +42,4 @@ public class LoginController {
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
         }
     }
-
-
 }

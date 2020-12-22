@@ -1,6 +1,7 @@
 package org.group02.guitarshop.controller;
 
 import net.bytebuddy.utility.RandomString;
+import org.group02.guitarshop.entity.Category;
 import org.group02.guitarshop.entity.Product;
 import org.group02.guitarshop.entity.User;
 import org.group02.guitarshop.service.UserServiceImpl;
@@ -9,10 +10,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -21,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -64,5 +69,65 @@ public class UserController {
     public String verifyAccount(@Param("code") String code){
         boolean verified = userService.verify(code);
         return "main/" + (verified ? "verify_success" : "verify_fail");
+    }
+
+    @GetMapping("/admin/viewUsers")
+    public String viewUser(Model model){
+        List<User> userList = userService.listAll();
+        model.addAttribute("userList", userList);
+        return "admin/viewUsers";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model, Principal principal){
+        String email = principal.getName();
+        User user = userService.findUserByEmail(email);
+        model.addAttribute("user", user);
+        return "main/profile";
+    }
+
+    @RequestMapping(value = "/saveProfile", method = RequestMethod.POST)
+    public String saveProfile(@RequestParam("email") String email,
+                               @RequestParam("name") String name,
+                               @RequestParam("phone") String phone,
+                               @RequestParam("address") String address,
+                               RedirectAttributes ra){
+        User user = userService.findUserByEmail(email);
+        user.setName(name);
+        user.setPhone(phone);
+        user.setAddress(address);
+        userService.save(user);
+        ra.addFlashAttribute("message", "Đã Cập nhật thông tin");
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/changePassword")
+    public String changePassword(Principal principal, Model model){
+        String email = principal.getName();
+        User user = userService.findUserByEmail(email);
+        model.addAttribute("user", user);
+        return "main/changePassword";
+    }
+
+    @RequestMapping(value = "/saveNewPassword", method = RequestMethod.POST)
+    public String saveNewPassword(@RequestParam("email") String email,
+                                  @RequestParam("oldPassword") String oldPassword,
+                                  @RequestParam("newPassword") String newPassword,
+                                  @RequestParam("retypePassword") String retypePassword,
+                                RedirectAttributes ra){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User user = userService.findUserByEmail(email);
+        if(encoder.matches(oldPassword, user.getPassword())){
+            if(newPassword == retypePassword){
+                user.setPassword(encoder.encode(newPassword));
+                userService.save(user);
+                ra.addFlashAttribute("message", "Đã Cập nhật Password!!!");
+            }else{
+                ra.addFlashAttribute("error", "Mật khẩu mới không khớp!!!");
+            }
+        }else {
+            ra.addFlashAttribute("error", "Mật khẩu hiện tại không chính xác!!!");
+        }
+        return "redirect:/changePassword";
     }
 }

@@ -20,7 +20,7 @@ public class DiscountCodeImpl implements DiscountCodeService {
     @Override
     public DiscountCode getDiscountCodeByCode(String code) {
         try {
-            Query query = entityManager.createNativeQuery("SELECT * FROM DISCOUNT_CODE WHERE Code='" + code + "' AND (GETDATE() BETWEEN Start_Date AND End_Date)", DiscountCode.class);
+            Query query = entityManager.createNativeQuery("SELECT * FROM DiscountCode WHERE Code='" + code + "' AND (GETDATE() BETWEEN Start_Date AND End_Date)", DiscountCode.class);
             DiscountCode discountCode = (DiscountCode) query.getSingleResult();
             return discountCode;
         } catch (Exception e){

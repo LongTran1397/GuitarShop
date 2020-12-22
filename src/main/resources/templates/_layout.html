@@ -75,17 +75,32 @@
                                aria-haspopup="true"
                                aria-expanded="false"><span class="fa fa-user"></span></a>
                             <ul>
-                                <li class="nav-item user_name"><a class="nav-link" href="/dang-nhap">Đăng nhập</a></li>
-                                <li class="nav-item"><a class="nav-link" th:href="@{/dang-ky}">Đăng ký</a></li>
+                                <li class="nav-item user_name"><a class="nav-link" href="/dang-nhap">
+                                        <i class="fa fa-sign-in"></i> Đăng nhập
+                                    </a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/dang-ky}">
+                                        <i class="fa fa-user-plus"></i> Đăng ký
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item submenu dropdown" sec:authorize="isAuthenticated()">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span>
+                               aria-haspopup="true" aria-expanded="false"><h6 th:text="${PersonalInformation.getName()}"></h6>
                             </a>
                             <ul>
-                                <li class="nav-item user_name"><h6 th:text="${PersonalInformation.getName()}"></h6></li>
-                                <li class="nav-item"><a class="nav-link" th:href="@{/dang-xuat}">Đăng xuất</a></li>
+                                <li class="nav-item" style="margin-left: 0px">
+                                    <a class="nav-link" th:href="@{/profile}">
+                                        <i class="fa fa-id-card"></i> Thông tin
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/changePassword}">
+                                        <i class="fa fa-key"></i> Đổi Mật khẩu
+                                    </a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/dang-xuat}"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
                             </ul>
                         </li>
                     </ul>

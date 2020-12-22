@@ -45,10 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                    .antMatchers("/**").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("admin")
-                        .anyRequest().authenticated()
-                        .and()
+                    .antMatchers("/admin/**").access("hasAuthority('admin')")
+                    .antMatchers("/user/**").access("hasAuthority('user')")
+                    .antMatchers("/profile").access("hasAnyAuthority('user','admin')")
+                    .and()
                 .formLogin()
                     .loginPage("/dang-nhap")
                     .usernameParameter("email")
