@@ -1,0 +1,5 @@
+org/group02/guitarshop/controller/ForgotPasswordController.class
+org/group02/guitarshop/controller/Utility.class
+org/group02/guitarshop/controller/CustomErrorController.class
+org/group02/guitarshop/repository/ManufacturerRepository.class
+org/group02/guitarshop/controller/ManufacturerController.class
