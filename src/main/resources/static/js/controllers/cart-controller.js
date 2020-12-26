@@ -11,6 +11,12 @@
 
             window.location.href = "/add-to-cart?productId=" + productId + "&quantity=" + quantity;
         });
+        $('#add_to_wishlist').off('click').on('click', function (e) {
+            e.preventDefault();
+            var productId = $(result).data('id');
+
+            window.location.href = "/add-to-wishlist?productId=" + productId;
+        });
 
         $('.delete_item').off('click').on('click', function (e) {
             e.preventDefault();

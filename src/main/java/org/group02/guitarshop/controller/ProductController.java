@@ -2,10 +2,10 @@ package org.group02.guitarshop.controller;
 
 import org.group02.guitarshop.entity.Category;
 import org.group02.guitarshop.entity.Manufacturer;
+import org.group02.guitarshop.entity.Message;
 import org.group02.guitarshop.entity.Product;
-import org.group02.guitarshop.service.CategoryService;
-import org.group02.guitarshop.service.ManufacturerService;
 import org.group02.guitarshop.service.ProductService;
+import org.group02.guitarshop.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -23,23 +25,33 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
+@Slf4j
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CommentService commentService;
+
     @RequestMapping(value = "/chi-tiet", method = RequestMethod.GET)
-    public String productDetail(Integer id, Model model) {
+    public String productDetail(@RequestParam("id") int id, Model model) {
+        // @RequestParam("categoryId") int categoryId
+        log.info("🔥🔥🔥🔥 id:" + id);
         model.addAttribute("product", productService.getProductById(id));
+        Product product = productService.getProductById(id);
+        log.info("🔥🔥🔥🔥 product name:" + product.getName());
         productService.GetProductExtraInfo(id);
         model.addAttribute("TotalRate", productService.getTotalRate());
         model.addAttribute("ListCountRate", productService.getListCountRate());
         model.addAttribute("ListRelativeProduct", productService.getListRelatedProducts());
         model.addAttribute("AverageRate", productService.getAverageRate());
         model.addAttribute("ListImage", productService.getProductImage());
+        model.addAttribute("ListComment", commentService.findAllCommentOfProduct(id));
+        Message msg = new Message("", "", "", product);
+        model.addAttribute("comment", msg);
         return "main/product-detail";
     }
 
