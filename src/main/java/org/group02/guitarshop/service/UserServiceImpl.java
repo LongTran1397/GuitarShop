@@ -1,7 +1,6 @@
 package org.group02.guitarshop.service;
 
 import net.bytebuddy.utility.RandomString;
-import org.group02.guitarshop.entity.Category;
 import org.group02.guitarshop.entity.Role;
 import org.group02.guitarshop.entity.User;
 import org.group02.guitarshop.repository.RoleRepository;
@@ -12,7 +11,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;

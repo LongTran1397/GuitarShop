@@ -1,10 +1,7 @@
 package org.group02.guitarshop.service;
 
 import org.group02.guitarshop.entity.DiscountCode;
-import org.group02.guitarshop.repository.DiscountCodeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -13,9 +10,6 @@ import javax.persistence.Query;
 public class DiscountCodeImpl implements DiscountCodeService {
     @PersistenceContext
     EntityManager entityManager;
-
-    @Autowired
-    private DiscountCodeRepository repository;
 
     @Override
     public DiscountCode getDiscountCodeByCode(String code) {

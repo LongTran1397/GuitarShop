@@ -24,13 +24,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
-@Slf4j
 public class ProductController {
 
     @Autowired
@@ -63,6 +61,20 @@ public class ProductController {
         return "admin/viewProducts";
     }
 
+    @GetMapping("/admin/viewComments")
+    public String viewComment(Model model) {
+        List<Message> commentList = commentService.findAllCommentNotApprove();
+        model.addAttribute("commentList", commentList);
+        return "admin/viewComments";
+    }
+
+    @GetMapping("/admin/viewCommentsApproved")
+    public String viewCommentsApproved(Model model) {
+        List<Message> commentList = commentService.findAllCommentApproved();
+        model.addAttribute("commentList", commentList);
+        return "admin/viewCommentsApproved";
+    }
+
     @ModelAttribute(name = "CategoryList")
     public List<Category> listCategoryName(){
         return productService.listAllCategory();
@@ -85,6 +97,33 @@ public class ProductController {
         Product product = productService.getProductById(id);
         mav.addObject("product", product);
         return mav;
+    }
+
+    @GetMapping("/admin/approveComment/{id}")
+    public String approveComment(@PathVariable(name = "id") int commentId, Model model){
+        commentService.approveComment(commentId);
+        List<Message> commentList = commentService.findAllCommentNotApprove();
+        model.addAttribute("commentList", commentList);
+
+        return "admin/viewComments";
+    }
+
+    @GetMapping("/admin/deleteComment/{id}")
+    public String deleteComment(@PathVariable(name = "id") int commentId, Model model){
+        commentService.deleteComment(commentId);
+        List<Message> commentList = commentService.findAllCommentNotApprove();
+        model.addAttribute("commentList", commentList);
+
+        return "admin/viewComments";
+    }
+
+    @GetMapping("/admin/deleteCommentApproved/{id}")
+    public String deleteCommentApproved(@PathVariable(name = "id") int commentId, Model model){
+        commentService.deleteComment(commentId);
+        List<Message> commentList = commentService.findAllCommentApproved();
+        model.addAttribute("commentList", commentList);
+
+        return "admin/viewCommentsApproved";
     }
 
     @PostMapping("/admin/saveProduct")

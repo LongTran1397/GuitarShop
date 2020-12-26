@@ -7,4 +7,8 @@ public interface CommentService {
     Integer insertComment(Message message);
     Message getCommentById(Integer id);
     public List<Message> findAllCommentOfProduct(Integer productId);
+    public List<Message> findAllCommentNotApprove();
+    public List<Message> findAllCommentApproved();
+    public void approveComment(Integer commentId);
+    public void deleteComment(Integer commentId);
 }

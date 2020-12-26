@@ -1,22 +1,14 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
-
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "Product")
 @Data
-@Slf4j
 public class Product {
 
     @Id

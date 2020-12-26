@@ -9,6 +9,17 @@
 <head>
     <title>Chi tiết sản phẩm - Guitar Shop</title>
     <style>
+        body { padding-top:30px; }
+.widget .panel-body { padding:0px; }
+.widget .list-group { margin-bottom: 0; }
+.widget .panel-title { display:inline }
+.widget .label-info { float: right; }
+.widget li.list-group-item {border-radius: 0;border: 0;border-top: 1px solid #ddd;}
+.widget li.list-group-item:hover { background-color: rgba(86,61,124,.1); }
+.widget .mic-info { color: #666666;font-size: 11px; }
+.widget .action { margin-top:5px; }
+.widget .comment-text { font-size: 12px; }
+.widget .btn-block { border-top-left-radius:0px;border-top-right-radius:0px; }
         body{margin-top:20px;}
 
         .comment-wrapper .panel-body {
@@ -243,9 +254,7 @@
             <div class="col-md-12 col-sm-12">
                 <div class="comment-wrapper">
                     <div class="panel panel-info">
-                        <div class="panel-heading">
-                            Comment panel
-                        </div>
+                       
                         <div class="panel-body">
                             <form method="POST" th:action="@{/comments}" th:object="${comment}">
                                 <div class="row">
@@ -271,15 +280,16 @@
                             </form>
                             <div class="clearfix"></div>
                             <hr>
-                            <ul class="media-list">
-                                
-                                <li th:each="tempComment : ${ListComment}">
-                                    <div class="media-body">
-                                        <span class="text-muted pull-right">
-                                            <small class="text-muted" th:text="${tempComment.createdTime}"></small>
-                                        </span>
-                                        <strong class="text-success" th:text="${tempComment.name}"></strong>
-                                        <p th:text="${tempComment.messageContent}"></p>
+                            <ul class="media-list" th:each="tempComment : ${ListComment}">
+                                <li >
+                                    <div class="row">
+                                        <div class="media-body col-md-12">
+                                            <span class="text-muted pull-right">
+                                                <small type="date" class="text-muted" th:text="${#temporals.format(tempComment.createdTime, 'dd-MM-yyyy', new java.util.Locale('en', 'EN'))}"></small>
+                                            </span>
+                                            <strong class="text-success" th:text="${tempComment.name}"></strong>
+                                            <p th:text="${tempComment.messageContent}"></p>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -289,8 +299,7 @@
         
             </div>
         </div>
-    </div>
-    
+    </div> 
     
     <section class="related-product-area section_gap_bottom">
         <div class="container">

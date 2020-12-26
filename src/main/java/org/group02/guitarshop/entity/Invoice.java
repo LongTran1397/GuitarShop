@@ -1,14 +1,10 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 

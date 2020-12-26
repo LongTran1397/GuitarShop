@@ -1,6 +1,5 @@
 package org.group02.guitarshop.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
