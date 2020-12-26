@@ -1,6 +1,7 @@
 package org.group02.guitarshop.controller;
 
 import org.group02.guitarshop.entity.DiscountCode;
+import org.group02.guitarshop.entity.Message;
 import org.group02.guitarshop.entity.Invoice;
 import org.group02.guitarshop.entity.InvoiceDetail;
 import org.group02.guitarshop.entity.Product;
@@ -8,12 +9,16 @@ import org.group02.guitarshop.models.CartItemModel;
 import org.group02.guitarshop.service.DiscountCodeService;
 import org.group02.guitarshop.service.InvoiceDetailService;
 import org.group02.guitarshop.service.InvoiceService;
+import org.group02.guitarshop.service.CommentService;
 import org.group02.guitarshop.service.ProductService;
 import org.group02.guitarshop.models.PersonalInformation;
+import org.group02.guitarshop.models.WishListItemModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@Slf4j
 public class CartController {
 
     @Autowired
@@ -35,6 +41,9 @@ public class CartController {
     private InvoiceService invoiceService;
 
     @Autowired
+    private CommentService commentService;
+
+    @Autowired
     private InvoiceDetailService invoiceDetailService;
 
     @RequestMapping(value = "/gio-hang")
@@ -43,11 +52,16 @@ public class CartController {
         model.addAttribute("discountCode",discountCode);
         return "/main/cart-detail";
     }
+    @RequestMapping(value = "/wish-list")
+    public String viewWishList(Model model) {
+        DiscountCode discountCode = new DiscountCode();
+        model.addAttribute("discountCode",discountCode);
+        return "/main/wish-list";
+    }
 
     @RequestMapping(value = "/add-to-cart", method = RequestMethod.GET)
     public String addToCart(HttpSession session, @RequestParam("productId") int productId, @RequestParam("quantity") int quantity) {
         HashMap<Integer, CartItemModel> sessionCart = (HashMap<Integer, CartItemModel>) session.getAttribute("sessionCart");
-
         if (sessionCart == null) {
             sessionCart = new HashMap<>();
         }
@@ -74,6 +88,33 @@ public class CartController {
 
         return "redirect:/gio-hang";
     }
+    @RequestMapping(value = "/add-to-wishlist", method = RequestMethod.GET)
+    public String addToWishList(HttpSession session, @RequestParam("productId") int productId) {
+        HashMap<Integer, WishListItemModel> sessionWishList = (HashMap<Integer, WishListItemModel>) session.getAttribute("sessionWishList");
+
+        if (sessionWishList == null) {
+            sessionWishList = new HashMap<>();
+        }
+
+        Product product = productService.getProductById(productId);
+
+        if (product != null) {
+            if (sessionWishList.containsKey(productId)) {
+                WishListItemModel item = sessionWishList.get(productId);
+                item.setProduct(product);
+                sessionWishList.put(productId, item);
+            } else {
+                WishListItemModel item = new WishListItemModel();
+                item.setProduct(product);
+                sessionWishList.put(productId, item);
+            }
+        }
+
+        session.setAttribute("sessionWishList", sessionWishList);
+        session.setAttribute("sessionWishListNum", sessionWishList.size());
+
+        return "redirect:/wish-list";
+    }
 
     @RequestMapping(value = "/remove-from-cart", method = RequestMethod.GET)
     public String removeFromCart(HttpSession session, @RequestParam("productId") int productId) {
@@ -98,6 +139,27 @@ public class CartController {
 
         return "redirect:/gio-hang";
     }
+    @RequestMapping(value = "/remove-from-wish-list", method = RequestMethod.GET)
+    public String removeFromWishList(HttpSession session, @RequestParam("productId") int productId) {
+        HashMap<Integer, CartItemModel> sessionWishList = (HashMap<Integer, CartItemModel>) session.getAttribute("sessionWishList");
+
+        if (sessionWishList == null) {
+            sessionWishList = new HashMap<>();
+        }
+
+        sessionWishList.remove(productId);
+
+        if (sessionWishList.size() == 0) {
+            session.setAttribute("sessionWishList", null);
+            session.setAttribute("sessionCartNum", null);
+            session.setAttribute("sessionDiscountCode", null);
+        } else {
+            session.setAttribute("sessionWishList", sessionWishList);
+            session.setAttribute("sessionCartNum", sessionWishList.size());
+        }
+
+        return "redirect:/wish-list";
+    }
 
     @RequestMapping(value = "/update-cart", method = RequestMethod.GET)
     public @ResponseBody String updateCart(HttpSession session, HttpServletRequest request) {
@@ -121,6 +183,25 @@ public class CartController {
         session.setAttribute("sessionCartTotal", getTotalPrice(sessionCart));
 
         return "1";
+    }
+
+    @RequestMapping(value="/comments", method=RequestMethod.POST)
+    public String createComment(@ModelAttribute("comment") Message comment, Model model){
+        log.info("🔥🔥🔥🔥 comment email:" + comment.getEmail());
+        log.info("🔥🔥🔥🔥 productId:" + comment.getProduct().getId());
+        commentService.insertComment(comment);
+        Product product = comment.getProduct();
+        int id = product.getId();
+
+        model.addAttribute("product", productService.getProductById(id));
+        productService.GetProductExtraInfo(id);
+        model.addAttribute("TotalRate", productService.getTotalRate());
+        model.addAttribute("ListCountRate", productService.getListCountRate());
+        model.addAttribute("ListRelativeProduct", productService.getListRelatedProducts());
+        model.addAttribute("AverageRate", productService.getAverageRate());
+        model.addAttribute("ListImage", productService.getProductImage());
+        model.addAttribute("comment", new Message("", "", "", product));
+        return "main/product-detail";
     }
 
     @RequestMapping(value="/apply-discount-code", method=RequestMethod.POST)

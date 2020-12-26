@@ -113,7 +113,7 @@ public class PDFExporter {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
-        Image image = Image.getInstance("src\\main\\resources\\static\\img\\reportHeader.png");
+        Image image = Image.getInstance("src/main/resources/static/img/reportHeader.png");
         float documentWidth = document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin();
         image.scaleToFit(documentWidth, 100);
         document.add(image);
@@ -142,7 +142,7 @@ public class PDFExporter {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
-        Image image = Image.getInstance("src\\main\\resources\\static\\img\\reportHeader.png");
+        Image image = Image.getInstance("src/main/resources/static/img/reportHeader.png");
         float documentWidth = document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin();
         image.scaleToFit(documentWidth, 100);
         document.add(image);
