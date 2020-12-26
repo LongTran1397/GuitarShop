@@ -85,9 +85,12 @@
                         <p th:text="${product.getDescription()}"></p>
                         <div class="product_count">
                             <label for="qty">Số lượng:</label>
+                            <input class="input-text" id="max-qty" th:data-id="${product.getQuantity()}" maxlength="12" name="max-qty" type="hidden" th:value="${product.getQuantity()}">
                             <input class="input-text" id="qty" th:data-id="${product.id}" maxlength="12" name="qty" type="text" value="1">
                             <button class="increase"
-                                    onclick="var result = document.getElementById('qty'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                    onclick="var result = document.getElementById('qty'); var sst = +result.value;
+                                    var result2 = document.getElementById('max-qty'); var sst2 = +result2.value;
+                                     if( !isNaN( sst ) && sst < sst2) result.value++;return false;"
                                     type="button">
                                 <i class="lnr lnr-chevron-up"></i>
                             </button>
