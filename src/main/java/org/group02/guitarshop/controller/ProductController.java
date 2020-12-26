@@ -24,7 +24,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
@@ -37,12 +40,10 @@ public class ProductController {
     private CommentService commentService;
 
     @RequestMapping(value = "/chi-tiet", method = RequestMethod.GET)
-    public String productDetail(@RequestParam("id") int id, Model model) {
-        // @RequestParam("categoryId") int categoryId
-        log.info("🔥🔥🔥🔥 id:" + id);
-        model.addAttribute("product", productService.getProductById(id));
+    public String productDetail(HttpSession session, @RequestParam("id") int id, Model model) {
         Product product = productService.getProductById(id);
-        log.info("🔥🔥🔥🔥 product name:" + product.getName());
+        session.setAttribute("product", product);
+        model.addAttribute("product", product);
         productService.GetProductExtraInfo(id);
         model.addAttribute("TotalRate", productService.getTotalRate());
         model.addAttribute("ListCountRate", productService.getListCountRate());

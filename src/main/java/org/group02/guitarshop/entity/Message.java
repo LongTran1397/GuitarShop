@@ -1,8 +1,14 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
+import java.time.LocalDateTime;
+
+import java.util.Date;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+
+import org.springframework.data.annotation.CreatedDate;
 
 @Data
 @Entity
@@ -26,12 +32,18 @@ public class Message {
     @Column(name = "Message_Content", nullable = true, columnDefinition="nvarchar(1000)")
     private String messageContent;
     
+    @CreationTimestamp
+    @Column(name = "created_time")
+    private LocalDateTime createdTime;
+    
     // @Column(name = "product_id")
     // private int productId;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne
     private Product product;
+    
+    public Message() {}
 
     public Message(String email, String name, String messageContent, Product product) {
         this.email = email;

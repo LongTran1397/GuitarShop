@@ -276,7 +276,7 @@
                                 <li th:each="tempComment : ${ListComment}">
                                     <div class="media-body">
                                         <span class="text-muted pull-right">
-                                            <small class="text-muted">30 min ago</small>
+                                            <small class="text-muted" th:text="${tempComment.createdTime}"></small>
                                         </span>
                                         <strong class="text-success" th:text="${tempComment.name}"></strong>
                                         <p th:text="${tempComment.messageContent}"></p>

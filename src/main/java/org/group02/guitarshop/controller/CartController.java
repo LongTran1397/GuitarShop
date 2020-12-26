@@ -186,11 +186,11 @@ public class CartController {
     }
 
     @RequestMapping(value="/comments", method=RequestMethod.POST)
-    public String createComment(@ModelAttribute("comment") Message comment, Model model){
-        log.info("🔥🔥🔥🔥 comment email:" + comment.getEmail());
-        log.info("🔥🔥🔥🔥 productId:" + comment.getProduct().getId());
+    public String createComment(HttpSession session, @ModelAttribute("comment") Message comment, Model model){
+        Product product = (Product) session.getAttribute("product");
+        session.removeAttribute("product");
+        comment.setProduct(product);
         commentService.insertComment(comment);
-        Product product = comment.getProduct();
         int id = product.getId();
 
         model.addAttribute("product", productService.getProductById(id));
@@ -201,7 +201,7 @@ public class CartController {
         model.addAttribute("AverageRate", productService.getAverageRate());
         model.addAttribute("ListImage", productService.getProductImage());
         model.addAttribute("comment", new Message("", "", "", product));
-        return "main/product-detail";
+        return "redirect:/chi-tiet/?id="+product.getId();
     }
 
     @RequestMapping(value="/apply-discount-code", method=RequestMethod.POST)
