@@ -25,6 +25,7 @@
     <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.skinFlat.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/magnific-popup.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -87,17 +88,23 @@
                         </li>
                         <li class="nav-item submenu dropdown" sec:authorize="isAuthenticated()">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false"><h6 th:text="${PersonalInformation.getName()}"></h6>
+                               aria-haspopup="true" aria-expanded="false">
+                                <h6 th:text="${PersonalInformation.getName()}"></h6>
                             </a>
                             <ul>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/profile}" style="margin-left: 0px">
+                                <li class="nav-item" style="margin-left: 0px">
+                                    <a class="nav-link" th:href="@{/profile}">
                                         <i class="fa fa-id-card"></i> Thông tin
                                     </a>
                                 </li>
                                 <li sec:authorize="hasAuthority('admin')" class="nav-item">
                                     <a class="nav-link" th:href="@{/admin/viewProducts}">
                                         <i class="fa fa-bar-chart"></i> Quản lý
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/viewOrders}">
+                                        <i class="fa fa-receipt"></i> Đơn hàng
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -171,6 +178,11 @@
 <script th:src="@{/js/controllers/contact-controller.js}"></script>
 <script th:src="@{/js/controllers/cart-controller.js}"></script>
 <script th:src="@{/js/controllers/user-controller.js}"></script>
+<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/js/demo/datatables-demo.js"></script>
 
 </body>
 </html>

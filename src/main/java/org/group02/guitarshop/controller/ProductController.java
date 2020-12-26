@@ -80,7 +80,7 @@ public class ProductController {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         product.setImageThumbnail(fileName);
         Product savedProduct = productService.save(product);
-        String uploadDir = "src/main/resources/static/img/products/" + savedProduct.getId();
+        String uploadDir = "products/" + savedProduct.getId();
         Path uploadPath = Paths.get(uploadDir);
         if(!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);

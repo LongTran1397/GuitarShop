@@ -28,4 +28,5 @@ public class Message {
     @Column(name = "Message_Content", nullable = true, columnDefinition="nvarchar(1000)")
     private String messageContent;
 
+
 }

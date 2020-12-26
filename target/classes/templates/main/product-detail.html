@@ -33,7 +33,7 @@
                         </div>
                         <th:block th:each="item: ${ListImage}">
                             <div class="single-prd-item">
-                                <img alt="" class="img-fluid" th:src="${'/img/products/' + item.getIdProduct() +'/' +item.getData()}" >
+                                <img alt="" class="img-fluid" th:src="${'/products/' + item.getIdProduct() +'/' +item.getData()}" >
                             </div>
                         </th:block>
                     </div>

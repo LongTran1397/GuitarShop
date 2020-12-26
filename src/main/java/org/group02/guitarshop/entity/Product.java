@@ -76,9 +76,9 @@ public class Product {
     @Transient
     public String getImagePath(){
         if (imageThumbnail == "")
-            return "/img/products/0/default_img.jpg";
+            return "/products/0/default_img.jpg";
         else{
-            return "/img/products/" + id + "/" + imageThumbnail;
+            return "/products/" + id + "/" + imageThumbnail;
         }
     }
 }

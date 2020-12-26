@@ -156,7 +156,7 @@ public class CartController {
 
         Invoice invoice = new Invoice();
         invoice.setCreatedTime(new Timestamp(new Date().getTime()));
-        invoice.setStatus(0);
+        invoice.setStatus(1);
 
         if (discountCode != null) {
             invoice.setIdDiscountCode(discountCode.getId());

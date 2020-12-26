@@ -2,6 +2,7 @@ package org.group02.guitarshop.controller;
 
 import net.bytebuddy.utility.RandomString;
 import org.group02.guitarshop.entity.User;
+import org.group02.guitarshop.others.Utility;
 import org.group02.guitarshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

@@ -1,4 +1,4 @@
-package org.group02.guitarshop.controller;
+package org.group02.guitarshop.others;
 
 import javax.servlet.http.HttpServletRequest;
 
