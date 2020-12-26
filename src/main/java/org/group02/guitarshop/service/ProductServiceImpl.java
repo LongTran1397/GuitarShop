@@ -152,4 +152,12 @@ public class ProductServiceImpl implements ProductService {
         }
 
     }
+
+    @Override
+    public void updateQuantity(int productId, int quantity) {
+        Product product = getProductById(productId);
+        int newQuantity = product.getQuantity() - quantity;
+        product.setQuantity(newQuantity);
+        repository.save(product);
+    }
 }

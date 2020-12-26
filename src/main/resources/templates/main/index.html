@@ -105,7 +105,7 @@
                     <a th:href="@{~/chi-tiet/(id=${item.id})}">
                         <div class="col-lg-3 col-md-4 col-6">
                             <div class="single-product">
-                                <img alt="" class="img-fluid" th:src="${item.getImagePath()}">
+                                <img alt="image-not-load" class="img-fluid" th:src="${item.getImagePath()}">
                                 <div class="product-details s_product_text">
                                     <h6 th:text="${item.name}"></h6>
                                     <div class="price">

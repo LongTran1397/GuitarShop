@@ -255,6 +255,9 @@ public class CartController {
         Integer invoiceId = invoiceService.insertInvoice(invoice);
 
         for (Map.Entry<Integer, CartItemModel> entry : sessionCart.entrySet()) {
+            Product product = entry.getValue().getProduct();
+            int quantity = entry.getValue().getQuantity();
+            productService.updateQuantity(product.getId(), quantity);
             Integer key = entry.getKey();
             CartItemModel value = new CartItemModel(entry.getValue());
             InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, value.getProduct().getId(), value.getQuantity());

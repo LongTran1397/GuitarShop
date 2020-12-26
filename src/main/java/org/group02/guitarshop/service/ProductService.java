@@ -25,4 +25,5 @@ public interface ProductService {
     Optional<Product> findById(int id);
     Product save(Product product);
     void deleteById(int id);
+    void updateQuantity(int productId, int quantity);
 }
