@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 
-@Data
 @Entity
 @Table(name = "Product")
+@Data
 public class Product {
 
     @Id
@@ -72,6 +73,9 @@ public class Product {
 
     @OneToMany(mappedBy = "productByIdProduct")
     private Collection<Rate> ratesById;
+
+    @OneToMany(mappedBy = "product")
+    private Collection<Message> commentCollection;
 
     @Transient
     public String getImagePath(){

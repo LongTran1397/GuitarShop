@@ -1,6 +1,7 @@
 package org.group02.guitarshop.controller;
 
 import org.group02.guitarshop.entity.DiscountCode;
+import org.group02.guitarshop.entity.Message;
 import org.group02.guitarshop.entity.Invoice;
 import org.group02.guitarshop.entity.InvoiceDetail;
 import org.group02.guitarshop.entity.Product;
@@ -8,6 +9,7 @@ import org.group02.guitarshop.models.CartItemModel;
 import org.group02.guitarshop.service.DiscountCodeService;
 import org.group02.guitarshop.service.InvoiceDetailService;
 import org.group02.guitarshop.service.InvoiceService;
+import org.group02.guitarshop.service.CommentService;
 import org.group02.guitarshop.service.ProductService;
 import org.group02.guitarshop.models.PersonalInformation;
 import org.group02.guitarshop.models.WishListItemModel;
@@ -37,6 +39,9 @@ public class CartController {
 
     @Autowired
     private InvoiceService invoiceService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private InvoiceDetailService invoiceDetailService;
@@ -178,6 +183,25 @@ public class CartController {
         session.setAttribute("sessionCartTotal", getTotalPrice(sessionCart));
 
         return "1";
+    }
+
+    @RequestMapping(value="/comments", method=RequestMethod.POST)
+    public String createComment(@ModelAttribute("comment") Message comment, Model model){
+        log.info("🔥🔥🔥🔥 comment email:" + comment.getEmail());
+        log.info("🔥🔥🔥🔥 productId:" + comment.getProduct().getId());
+        commentService.insertComment(comment);
+        Product product = comment.getProduct();
+        int id = product.getId();
+
+        model.addAttribute("product", productService.getProductById(id));
+        productService.GetProductExtraInfo(id);
+        model.addAttribute("TotalRate", productService.getTotalRate());
+        model.addAttribute("ListCountRate", productService.getListCountRate());
+        model.addAttribute("ListRelativeProduct", productService.getListRelatedProducts());
+        model.addAttribute("AverageRate", productService.getAverageRate());
+        model.addAttribute("ListImage", productService.getProductImage());
+        model.addAttribute("comment", new Message("", "", "", product));
+        return "main/product-detail";
     }
 
     @RequestMapping(value="/apply-discount-code", method=RequestMethod.POST)

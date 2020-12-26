@@ -6,6 +6,7 @@
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/repository/ContactRepository.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/entity/User.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/controller/ForgotPasswordController.java
+/home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/service/CommentService.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/config/ServletInitializer.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/service/ContactService.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/models/CartItemModel.java
@@ -14,9 +15,11 @@
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/repository/InvoiceDetailRepository.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/entity/Invoice.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/service/InvoiceDetailService.java
+/home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/service/CommentServiceImpl.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/controller/HomeController.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/models/WishListItemModel.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/repository/ProductRepository.java
+/home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/repository/CommentRepository.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/controller/UserController.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/GuitarShopApplication.java
 /home/tu/Desktop/maven/GuitarShop/src/main/java/org/group02/guitarshop/config/SecurityConfig.java
