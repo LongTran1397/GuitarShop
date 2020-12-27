@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,11 +61,13 @@ public class InvoiceController {
 
     @GetMapping("/admin/setInvoiceStatus/{id}")
     public String setStatus(@PathVariable(name = "id") int id,
-                            @Param(value = "status") String status) {
+                          @Param(value = "status" ) String status,
+                          RedirectAttributes ra) {
         Invoice invoice = invoiceService.getInvoiceById(id);
         invoice.setStatus(Integer.parseInt(status));
         invoiceService.save(invoice);
-        return "redirect:/admin/viewInvoices?status=" + status;
+        ra.addFlashAttribute("message","Status of the order is changed to "+status);
+        return "redirect:/admin/viewInvoiceDetail/"+id;
     }
 
     @GetMapping("/viewOrders")

@@ -15,7 +15,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/linearicons.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" th:href="@{/css/themify-icons.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/owl.carousel.css}" type="text/css">
@@ -65,6 +65,11 @@
                         <li class="nav-item" title="Search">
                             <button class="search nav-link"><span class="fa fa-search" id="search"></span></button>
                         </li>
+                        <li class="nav-item" title="Wishlish">
+                            <a href="/wish-list" class="cart nav-link">
+                                <span class="fas fa-star"></span>
+                            </a>
+                        </li>
                         <li class="nav-item" title="View Cart">
                             <a href="/gio-hang" class="cart nav-link">
                                 <span class="fa fa-shopping-cart"></span>
@@ -77,11 +82,11 @@
                                aria-expanded="false"><span class="fa fa-user"></span></a>
                             <ul>
                                 <li class="nav-item user_name"><a class="nav-link" href="/dang-nhap">
-                                        <i class="fa fa-sign-in"></i> Login
+                                    <i class="fas fa-sign-in-alt"></i> Login
                                     </a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" th:href="@{/dang-ky}">
-                                        <i class="fa fa-user-plus"></i> Register
+                                    <i class="fas fa-user-plus"></i> Register
                                     </a>
                                 </li>
                             </ul>
@@ -94,12 +99,12 @@
                             <ul>
                                 <li class="nav-item" style="margin-left: 0px">
                                     <a class="nav-link" th:href="@{/profile}">
-                                        <i class="fa fa-id-card"></i> Cart
+                                        <i class="fa fa-id-card"></i> Profile
                                     </a>
                                 </li>
                                 <li sec:authorize="hasAuthority('admin')" class="nav-item">
                                     <a class="nav-link" th:href="@{/admin/viewProducts}">
-                                        <i class="fa fa-bar-chart"></i> Management
+                                        <i class="fas fa-chart-bar"></i> Management
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -112,7 +117,11 @@
                                         <i class="fa fa-key"></i> Change Password
                                     </a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" th:href="@{/dang-xuat}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/dang-xuat}">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

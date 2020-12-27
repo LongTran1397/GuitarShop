@@ -14,10 +14,13 @@ public class Rate {
     private int id;
 
     @Column(name = "star", nullable = true, precision = 0)
-    private Double numberOfStars;
+    private int numberOfStars;
 
     @Column(name = "product_id", nullable = true)
     private Integer idProduct;
+
+    @Column(name="content")
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)

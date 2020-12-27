@@ -5,7 +5,7 @@
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<title id="title">Admin | Order</title>
+    <title id="title">Admin | Order</title>
 </head>
 <body>
 <div class="content-wrapper" id="content">
@@ -36,8 +36,10 @@
                         <div class="row">
                             <div class="col-12">
                                 <h4>
-                                    <i class="fas fa-globe"></i><th:block th:text="'Invoice of: ' + ${invoice.customerName}"></th:block>
-                                    <small class="float-right" th:text="'Order date: ' + ${invoice.createdTime}"></small>
+                                    <i class="fas fa-globe"></i>
+                                    <th:block th:text="'Invoice of: ' + ${invoice.customerName}"></th:block>
+                                    <small class="float-right"
+                                           th:text="'Order date: ' + ${invoice.createdTime}"></small>
                                 </h4>
                             </div>
                             <!-- /.col -->
@@ -69,14 +71,62 @@
                                 <br>
                                 <b th:text="'Order ID:' + ${invoice.id}"></b><br>
                                 <b th:text="'Payment Method: '+ ${invoice.paymentMethod}"></b><br>
-                                <b th:text="'Status: '+${invoice.status}"></b><br>
+                                <b th:classappend="${(invoice.status == 1 ? 'text-warning':'')
+                                            + (invoice.status == 2 ? 'text-info':'')
+                                            + (invoice.status == 3 ? 'text-success':'')
+                                            + (invoice.status == 4 ? 'text-danger':'')}"
+                                   th:text="'Status: '+${invoice.getStatusByStatusId().status}">
+                                </b>
+                                <th:block th:if="${invoice.status == 1}">
+                                    <select onchange="location = this.value;">
+                                        <option value="" selected disabled hidden>Change Status</option>
+                                        <option class="text-info"
+                                                th:value="${'/admin/setInvoiceStatus/'+invoice.id+'/?status=2'}">
+                                            Shipping
+                                        </option>
+                                        <option class="text-danger"
+                                                th:value="${'/admin/setInvoiceStatus/'+invoice.id+'/?status=4'}">
+                                            Cancelled
+                                        </option>
+                                    </select>
+                                </th:block>
+
+                                <th:block th:if="${invoice.status == 2}">
+                                    <select onchange="location = this.value;">
+                                        <option value="" selected disabled hidden>Change Status</option>
+                                        <option class="text-success"
+                                                th:value="${'/admin/setInvoiceStatus/'+invoice.id+'/?status=3'}">
+                                            Completed
+                                        </option>
+                                        <option class="text-danger"
+                                                th:value="${'/admin/setInvoiceStatus/'+invoice.id+'/?status=4'}">
+                                            Cancelled
+                                        </option>
+                                    </select>
+                                </th:block>
+                                <th:block th:if="${invoice.status == 3}">
+                                </th:block>
+                                <th:block th:if="${invoice.status == 4}">
+                                </th:block>
                             </div>
                             <!-- /.col -->
                         </div>
-                        <!-- /.row -->
+                        <!-- /.row -->`
 
                         <!-- Table row -->
                         <div class="row">
+                            <span th:if="${message}" class="col-12 table-responsive">
+                                <div class="alert alert-success alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>Success: </strong>[[${message}]].
+                                </div>
+                            </span>
+                            <span th:if="${error}" class="col-12 table-responsive">
+                                <div class="alert alert-danger alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>Error: </strong>[[${error}]].
+                                </div>
+                             </span>
                             <div class="col-12 table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -90,7 +140,8 @@
                                     <tbody>
                                     <tr th:each="i: ${invoiceDetails}">
                                         <td>
-                                            <img width="70" height="70" th:src="${i.getProductByIdProduct().getImagePath()}" alt="cart-image">
+                                            <img width="70" height="70"
+                                                 th:src="${i.getProductByIdProduct().getImagePath()}" alt="cart-image">
                                         </td>
                                         <td th:text="${i.getProductByIdProduct().name}"></td>
                                         <td th:text="${i.quantity}"></td>
@@ -135,8 +186,10 @@
                         <div class="row no-print">
 
                             <div class="col-12">
-                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                                <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
+                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                        class="fas fa-print"></i> Print</a>
+                                <button type="button" class="btn btn-success float-right"><i
+                                        class="far fa-credit-card"></i> Submit
                                     Payment
                                 </button>
                                 <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">

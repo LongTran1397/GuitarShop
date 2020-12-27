@@ -63,4 +63,5 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "status", referencedColumnName = "id", insertable = false, updatable = false)
     private InvoiceStatus statusByStatusId;
+
 }
