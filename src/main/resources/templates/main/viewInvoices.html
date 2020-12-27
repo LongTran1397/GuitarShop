@@ -78,7 +78,7 @@
                                                                                             + (i.status == 4 ? 'text-danger':'')}"
                                                     th:text="${i.getStatusByStatusId().getStatus()}"></td>
                                                 <td style="text-align: center">[[${#numbers.formatDecimal(i.total, 0,
-                                                    'COMMA', 0, 'POINT')}]]đ
+                                                    'COMMA', 0, 'POINT')}]]
                                                 </td>
                                                 <td style="text-align: center"
                                                     th:text="${#dates.format(i.createdTime, 'dd-MM-yyyy')}"></td>
