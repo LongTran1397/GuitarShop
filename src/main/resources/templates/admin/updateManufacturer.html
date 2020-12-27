@@ -5,11 +5,11 @@
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
 
-<title id="title">Admin | Chỉnh sửa Nhà SX</title>
+<title id="title">Admin | Update Manufacturer</title>
 <div id="content" align="center">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Chỉnh sửa Nhà SX</h1>
+    <h1 class="h3 mb-2 text-gray-800">Update Manufacturer</h1>
     <form style="width: 50%" th:action="@{/saveManufacturer}" th:object="${manufacturer}" method="post" class="user">
         <hr>
         <table style="width: 85%;border-collapse: separate; border-spacing: 0 15px;">
@@ -18,19 +18,19 @@
                 <td><input type="text" th:field="*{id}" class="form-control form-control-user" readonly></td>
             </tr>
             <tr>
-                <td><label>Tên Nhà SX: </label></td>
+                <td><label>Manufacturer Name: </label></td>
                 <td><input type="text" th:field="*{name}" class="form-control form-control-user"
-                           placeholder="Tên Nhà SX" required="true" autofocus></td>
+                           placeholder="Manufacturer Name" required="true" autofocus></td>
             </tr>
             <tr>
-                <td><label>Xuất xứ: </label></td>
+                <td><label>Country: </label></td>
                 <td><input type="text" th:field="*{country}" class="form-control form-control-user"
-                           placeholder="Xuất xứ"
+                           placeholder="Country"
                            required="true"></td>
             </tr>
             <tr align="center">
                 <td colspan="2">
-                    <button type="submit" class="btn-lg btn-success" value="submit">Lưu</button></td>
+                    <button type="submit" class="btn-lg btn-success" value="submit">Save</button></td>
             </tr>
         </table>
         <hr>

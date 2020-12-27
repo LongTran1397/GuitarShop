@@ -42,7 +42,12 @@
                     <tr th:each="p : ${commentList}">
                         <td style="text-align: center" th:text="${p.id}"></td>
                         <td th:text="${p.messageContent}"></td>
-                        <td th:text="${p.product.name}"></td>
+                        <td>
+                            <a 
+                                th:text="${p.product.name}"
+                                th:href="@{~/chi-tiet/(id=${p.product.id})}"
+                            ></a>
+                        </td>
                         <td style="text-align: center" type="date" class="text-muted" th:text="${#temporals.format(p.createdTime, 'dd-MM-yyyy', new java.util.Locale('en', 'EN'))}"></td>
                         <td align="center">
                             <a th:href="@{'/admin/deleteCommentApproved/' + ${p.id}}" onclick="if(!(confirm('Are you sure to delete this comment?'))) return false" class="btn btn-sm btn-danger" title="Delete Comment">

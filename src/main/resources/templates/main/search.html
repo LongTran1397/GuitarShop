@@ -7,7 +7,7 @@
                                                 ${session.PersonalInformation}
                                                )}"> 
 <head>
-        <title>Kết quả tìm kiếm - Guitar Shop</title>
+        <title>Search result - Guitar Shop</title>
 </head>
 <body>
 <div id="main-content">
@@ -16,7 +16,7 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Kết quả tìm kiếm</h1>
+                    <h1>Search result</h1>
                 </div>
             </div>
         </div>
@@ -27,12 +27,12 @@
         <div class="container">
             <div class="result_overview">
                 <th:block th:if="${#lists.isEmpty(pageListProduct.pageList)}">
-                <h4 th:text="'Không tìm thấy sản phẩm!'"></h4>
+                <h4 th:text="'Cannot find any result!'"></h4>
                 <hr />
                 </th:block>
             </div>
             <th:block th:unless="${#lists.isEmpty(pageListProduct.pageList)}">
-                <h4 th:text="'Kết quả tìm được: '+${count}+' sản phẩm'"></h4>
+                <h4 th:text="'result: '+${count}+' products'"></h4>
                 <hr />
             <div class="result_list">
                 <div class="row">
@@ -57,7 +57,7 @@
                                             </th:block>
                                         </div>
                                         <div class="prd-bottom card_area">
-                                            <a class="primary-btn" th:href="@{/add-to-cart(productId=${product.id}, quantity=1)}">Thêm vào giỏ</a>
+                                            <a class="primary-btn" th:href="@{/add-to-cart(productId=${product.id}, quantity=1)}">Add to Cart</a>
                                         </div>
                                     </div>
                                 </div>

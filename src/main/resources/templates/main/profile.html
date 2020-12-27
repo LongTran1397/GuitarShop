@@ -16,7 +16,7 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Thông tin cá nhân</h1>
+                    <h1>Profile</h1>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form th:action="@{/saveProfile}" th:object="${user}" method="post" class="login_form_inner">
-                        <h3>Thông tin cá nhân</h3>
+                        <h3>Profile</h3>
                         <span th:if="${message}">
                              <div class="alert alert-success alert-dismissible">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -56,10 +56,10 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" name="address" id="address"
-                                       th:field="*{address}" placeholder="Địa chỉ" required>
+                                       th:field="*{address}" placeholder="Address" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <button class="primary-btn" type="Submit">Lưu</button>
+                                <button class="primary-btn" type="Submit">Save</button>
                             </div>
                         </div>
                     </form>

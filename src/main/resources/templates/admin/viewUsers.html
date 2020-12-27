@@ -5,11 +5,11 @@
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
 
-<title id="title">Admin | Khách hàng</title>
+<title id="title">Admin | Customer</title>
 <div id="content">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800" align="center">Danh sách Khách hàng</h1>
+    <h1 class="h3 mb-2 text-gray-800" align="center">Customers</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -19,10 +19,10 @@
                     <thead>
                     <tr>
                         <th style="text-align: center">ID</th>
-                        <th style="text-align: center">Tên Khách hàng</th>
+                        <th style="text-align: center">Name</th>
                         <th style="text-align: center">Email</th>
-                        <th style="text-align: center">SĐT</th>
-                        <th style="text-align: center">Trạng thái</th>
+                        <th style="text-align: center">Phone</th>
+                        <th style="text-align: center">Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,7 +31,7 @@
                         <td th:text="${c.name}"></td>
                         <td th:text="${c.email}"></td>
                         <td th:text="${c.phone}"></td>
-                        <td th:text="${c.enable} == true ? 'Đã kích hoạt':'Chưa kích hoạt'">
+                        <td th:text="${c.enable} == true ? 'Verified':'Not verify'">
                         </td>
                     </tr>
                     </tbody>

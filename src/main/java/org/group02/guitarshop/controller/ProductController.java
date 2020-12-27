@@ -4,9 +4,13 @@ import org.group02.guitarshop.entity.Category;
 import org.group02.guitarshop.entity.Manufacturer;
 import org.group02.guitarshop.entity.Message;
 import org.group02.guitarshop.entity.Product;
+import org.group02.guitarshop.entity.User;
 import org.group02.guitarshop.service.ProductService;
+import org.group02.guitarshop.service.UserService;
 import org.group02.guitarshop.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,19 +30,24 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@Slf4j
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CommentService commentService;
 
     @RequestMapping(value = "/chi-tiet", method = RequestMethod.GET)
-    public String productDetail(HttpSession session, @RequestParam("id") int id, Model model) {
+    public String productDetail(HttpServletRequest request, HttpSession session, @RequestParam("id") int id, Model model) {
         Product product = productService.getProductById(id);
         session.setAttribute("product", product);
         model.addAttribute("product", product);
@@ -49,7 +58,14 @@ public class ProductController {
         model.addAttribute("AverageRate", productService.getAverageRate());
         model.addAttribute("ListImage", productService.getProductImage());
         model.addAttribute("ListComment", commentService.findAllCommentOfProduct(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Message msg = new Message("", "", "", product);
+        String email = auth.getName();
+        if (auth != null && (!"anonymousUser".equals(email))) {
+            User user = userService.findUserByEmail(email);
+            msg.setEmail(auth.getName());
+            msg.setName(user.getName());
+        }
         model.addAttribute("comment", msg);
         return "main/product-detail";
     }

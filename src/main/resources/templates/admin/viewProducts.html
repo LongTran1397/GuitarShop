@@ -5,11 +5,11 @@
                                                )}"
         xmlns:th="http://www.thymeleaf.org">
 
-<title id="title">Admin | Sản phẩm</title>
+<title id="title">Admin | Products</title>
 <div id="content">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800" align="center">Danh sách sản phẩm</h1>
+    <h1 class="h3 mb-2 text-gray-800" align="center">Products</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -20,7 +20,7 @@
                     <span class="icon text-white-50">
                       <i class="fas fa-plus-square"></i>
                     </span>
-                <span class="text">Thêm Sản Phẩm</span>
+                <span class="text">Add Product</span>
             </a>
         </div>
         <span th:if="${message}">
@@ -41,12 +41,12 @@
                     <thead>
                     <tr>
                         <th style="text-align: center">ID</th>
-                        <th style="text-align: center">Ảnh</th>
-                        <th style="text-align: center">Tên</th>
-                        <th style="text-align: center">Dáng</th>
-                        <th style="text-align: center">Phân loại</th>
-                        <th style="text-align: center">Nhà SX</th>
-                        <th style="text-align: center">Giá</th>
+                        <th style="text-align: center">Image</th>
+                        <th style="text-align: center">Name</th>
+                        <th style="text-align: center">Style</th>
+                        <th style="text-align: center">Category</th>
+                        <th style="text-align: center">Manufacturer</th>
+                        <th style="text-align: center">Price</th>
                         <th style="text-align: center">Action</th>
                     </tr>
                     </thead>
@@ -67,7 +67,7 @@
                             <a th:href="@{'/admin/updateProduct/' + ${p.id}}" class="btn btn-sm btn-info" title="Update Product">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{'/admin/deleteProduct/' + ${p.id}}" onclick="if(!(confirm('Bạn có chắc muốn xóa Sản phẩm này?'))) return false" class="btn btn-sm btn-danger" title="Delete Product">
+                            <a th:href="@{'/admin/deleteProduct/' + ${p.id}}" onclick="if(!(confirm('Are you sure to delete this entry?'))) return false" class="btn btn-sm btn-danger" title="Delete Product">
 
                                 <i class="fas fa-trash"></i>
                             </a>

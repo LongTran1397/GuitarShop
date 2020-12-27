@@ -5,11 +5,11 @@
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
 
-<title id="title">Admin | Nhà SX</title>
+<title id="title">Admin | Manufacturer</title>
 <div id="content">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800" align="center">Nhà SX</h1>
+    <h1 class="h3 mb-2 text-gray-800" align="center">Manufacturer</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -18,7 +18,7 @@
                     <span class="icon text-white-50">
                       <i class="fas fa-plus-square"></i>
                     </span>
-                    <span class="text">Thêm Nhà SX mới</span>
+                    <span class="text">Add Manufacturer</span>
                 </a>
         </div>
         <span th:if="${message}">
@@ -39,8 +39,8 @@
                     <thead>
                     <tr>
                         <th style="text-align: center">ID</th>
-                        <th style="text-align: center">Tên Nhà SX</th>
-                        <th style="text-align: center">Xuất xứ</th>
+                        <th style="text-align: center">Manufacturer Name</th>
+                        <th style="text-align: center">Country</th>
                         <th style="text-align: center">Action</th>
                     </tr>
                     </thead>
@@ -54,8 +54,8 @@
                                title="Cập nhật Nhà SX">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{'/deleteManufacturer/' + ${c.id}}" onclick="if(!(confirm('Bạn có chắc muốn xóa NSX này?'))) return false" class="btn btn-sm btn-danger"
-                               title="Xóa Nhà SX">
+                            <a th:href="@{'/deleteManufacturer/' + ${c.id}}" onclick="if(!(confirm('Are you sure to delete this entry?'))) return false" class="btn btn-sm btn-danger"
+                               title="Delete">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>

@@ -5,11 +5,11 @@
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
 
-<title id="title">Admin | Chỉnh sửa Sản phẩm</title>
+<title id="title">Admin | Update Product</title>
 <div id="content" align="center">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Chỉnh sửa SP</h1>
+    <h1 class="h3 mb-2 text-gray-800">Update Product</h1>
     <form style="width: 50%" th:action="@{/admin/saveProduct}" th:object="${product}" method="post" class="user"
           enctype="multipart/form-data">
         <hr>
@@ -20,33 +20,33 @@
                            readonly></td>
             </tr>
             <tr>
-                <td><label>Tên SP: </label></td>
+                <td><label>Product Name: </label></td>
                 <td><input type="text" th:field="*{name}" class="form-control form-control-user"
-                           placeholder="Tên SP" required="true"></td>
+                           placeholder="Product Name" required="true"></td>
             </tr>
             <tr>
-                <td><label>Danh muc: </label></td>
+                <td><label>Category: </label></td>
                 <td><select th:field="*{idCategory}">
                     <option th:each="id : ${CategoryList}" th:value="${id.id}" th:text="${id.name}"></option>
                 </select></td>
             </tr>
             <tr>
-                <td><label>Nhà SX: </label></td>
+                <td><label>Manufacturer: </label></td>
                 <td><select th:field="*{idManufacturer}">
                     <option th:each="id : ${ManufacturerList}" th:value="${id.id}"
                             th:text="${id.name}"></option>
                 </select></td>
             </tr>
             <tr>
-                <td><label>Kiểu dáng: </label></td>
+                <td><label>Style: </label></td>
                 <td><input type="text" th:field="*{style}" class="form-control form-control-user"
-                           placeholder="Kiểu dáng"
+                           placeholder="Style"
                            required="true"></td>
             </tr>
             <tr>
-                <td><label>Giá: </label></td>
+                <td><label>Price: </label></td>
                 <td><input type="number" th:field="*{price}" class="form-control form-control-user"
-                           placeholder="Giá"
+                           placeholder="Price"
                            required="true"></td>
             </tr>
             <tr>
@@ -57,13 +57,13 @@
                            required="true"></td>
             </tr>
             <tr>
-                <td><label>Số lượng: </label></td>
+                <td><label>Quantity: </label></td>
                 <td><input type="number" th:field="*{quantity}" value="0" class="form-control form-control-user"
-                           placeholder="Số lượng"
+                           placeholder="Quantity"
                            required="true"></td>
             </tr>
             <tr>
-                <td><label>Ảnh: </label></td>
+                <td><label>Image: </label></td>
                 <td><input type="file" name="fileImage" accept="image/**"></td>
             </tr>
             <tr>
@@ -73,7 +73,7 @@
                               required="true"></textarea></td>
             </tr>
         </table>
-        <button style="position: fixed" type="submit" class="btn-lg btn-success" value="submit">Lưu</button>
+        <button style="position: fixed" type="submit" class="btn-lg btn-success" value="submit">Save</button>
     </form>
 </div>
 </html>
