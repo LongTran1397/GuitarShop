@@ -239,6 +239,7 @@ public class CartController {
             invoice.setIdDiscountCode(discountCode.getId());
             invoice.setTotal(getTotalPrice(sessionCart) * (100 - discountCode.getDiscountAmount()) / 100);
         }
+        invoice.setTotal(getTotalPrice(sessionCart));
         if (personalInformation != null)
             invoice.setIdPerson(personalInformation.getId());
         invoice.setCustomerName(requestInvoice.getCustomerName());
