@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/dang-ky", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, HttpServletRequest request)
+    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes ra)
             throws UnsupportedEncodingException, MessagingException {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());
@@ -51,7 +51,7 @@ public class UserController {
             userService.saveUser(user);
             String siteURL = Utility.getSiteURL(request);
             userService.sendVerificationEmail(user, siteURL);
-            modelAndView.addObject("successMessage", "Đăng ký thành công!");
+            modelAndView.addObject("message", "Please check registered E-mail to Verify Acount!");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("main/login");
         }
