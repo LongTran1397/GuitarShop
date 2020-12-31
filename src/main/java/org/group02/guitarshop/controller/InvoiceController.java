@@ -1,11 +1,10 @@
 package org.group02.guitarshop.controller;
 
-import org.group02.guitarshop.entity.Invoice;
-import org.group02.guitarshop.entity.InvoiceDetail;
-import org.group02.guitarshop.entity.User;
+import org.group02.guitarshop.entity.*;
 import org.group02.guitarshop.others.PDFExporter;
 import org.group02.guitarshop.service.InvoiceDetailService;
 import org.group02.guitarshop.service.InvoiceService;
+import org.group02.guitarshop.service.ProductService;
 import org.group02.guitarshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -33,6 +32,9 @@ public class InvoiceController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/admin/viewInvoices")
     public String viewInvoices(Model model,
@@ -66,7 +68,24 @@ public class InvoiceController {
         Invoice invoice = invoiceService.getInvoiceById(id);
         invoice.setStatus(Integer.parseInt(status));
         invoiceService.save(invoice);
-        ra.addFlashAttribute("message","Status of the order is changed to "+status);
+        if(status.equals("4")){
+            for(InvoiceDetail item : invoice.getInvoiceDetailsById()){
+                int productId = item.getProductByIdProduct().getId();
+                int quantity = item.getQuantity();
+                productService.updateQuantityWhenCancelOrder(productId,quantity);
+            }
+        }
+        String a;
+        if (status.equals("1")){
+            a = "Pending";
+        }else if(status.equals("2")){
+            a = "Shipping";
+        }else if(status.equals("3")){
+            a = "Completed";
+        }else {
+            a = "Cancelled";
+        }
+        ra.addFlashAttribute("message","Status of the order is changed to "+a);
         return "redirect:/admin/viewInvoiceDetail/"+id;
     }
 

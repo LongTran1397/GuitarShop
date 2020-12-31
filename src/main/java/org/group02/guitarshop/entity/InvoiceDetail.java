@@ -15,17 +15,22 @@ public class InvoiceDetail implements Serializable {
     @Column(name = "quantity", nullable = true)
     private Integer quantity;
 
+    @Column(name="isReviewed", nullable = false)
+    private boolean isReviewed;
+
     public InvoiceDetail() { }
 
-    public InvoiceDetail(InvoiceDetailIdentity invoiceDetailIdentity, Integer quantity) {
+    public InvoiceDetail(InvoiceDetailIdentity invoiceDetailIdentity, Integer quantity, boolean isReviewed) {
         this.invoiceDetailIdentity = invoiceDetailIdentity;
         this.quantity = quantity;
+        this.isReviewed = isReviewed;
     }
 
-    public InvoiceDetail(int idInvoice, int idProduct, Integer quantity) {
+    public InvoiceDetail(int idInvoice, int idProduct, Integer quantity, boolean isReviewed) {
         InvoiceDetailIdentity invoiceDetailIdentity = new InvoiceDetailIdentity(idInvoice, idProduct);
         this.invoiceDetailIdentity = invoiceDetailIdentity;
         this.quantity = quantity;
+        this.isReviewed = isReviewed;
     }
 
     @MapsId("idInvoice")

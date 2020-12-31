@@ -1,8 +1,11 @@
 package org.group02.guitarshop.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,8 +22,15 @@ public class Rate {
     @Column(name = "product_id", nullable = true)
     private Integer idProduct;
 
+    @Column(name="name")
+    private String name;
+
     @Column(name="content")
     private String content;
+
+    @CreationTimestamp
+    @Column(name="created_time")
+    private Date createdTime;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)

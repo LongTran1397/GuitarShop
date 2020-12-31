@@ -93,10 +93,8 @@ public class UserServiceImpl implements UserService {
 
     public void updateResetPasswordToken(String token, String email){
         User user = userRepository.findByEmail(email);
-        if (user != null) {
             user.setResetPasswordToken(token);
             userRepository.save(user);
-        }
     }
 
     public User getByResetPasswordToken(String token) {

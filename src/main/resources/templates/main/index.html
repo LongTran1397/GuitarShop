@@ -96,7 +96,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
-                        <h1>Hot promotion products</h1>
+                        <h1>Hot Promotion products</h1>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <a th:href="@{~/chi-tiet/(id=${item.id})}">
                         <div class="col-lg-3 col-md-4 col-6">
                             <div class="single-product">
-                                <img alt="image-not-load" class="img-fluid" th:src="${item.getImagePath()}">
+                                <img width="210" height="373" th:src="${item.getImagePath()}">
                                 <div class="product-details s_product_text">
                                     <h6 th:text="${item.name}"></h6>
                                     <div class="price">
@@ -133,7 +133,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
-                        <h1>Newest Product</h1>
+                        <h1>Latest Product</h1>
                     </div>
                 </div>
             </div>
@@ -142,7 +142,7 @@
                     <a th:href="@{~/chi-tiet/(id=${item.id})}">
                         <div class="col-lg-3 col-md-4 col-6">
                             <div class="single-product">
-                                <img alt="" class="img-fluid" th:src="${item.getImagePath()}">
+                                <img width="210px" height="373px" th:src="${item.getImagePath()}">
                                 <div class="product-details s_product_text">
                                     <h6 th:text="${item.name}"></h6>
                                     <div class="price">

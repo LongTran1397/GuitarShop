@@ -7,6 +7,7 @@ import org.group02.guitarshop.entity.*;
 import org.group02.guitarshop.repository.CategoryRepository;
 import org.group02.guitarshop.repository.ManufacturerRepository;
 import org.group02.guitarshop.repository.ProductRepository;
+import org.group02.guitarshop.repository.RateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
@@ -27,7 +28,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ManufacturerRepository manufacturerRepository;
 
-    public List<ProductImage> ListImage;
+    @Autowired
+    RateRepository rateRepository;
+
     public List<Product> ListRelatedProducts;
     public int TotalRate;
     public double AverageRate=0;
@@ -57,11 +60,6 @@ public class ProductServiceImpl implements ProductService {
 
     public double getAverageRate() {
         return AverageRate;
-    }
-
-    @Override
-    public List<ProductImage> getProductImage() {
-        return ListImage;
     }
 
     @Override
@@ -116,12 +114,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void GetProductExtraInfo(Integer id)
     {
-        // Lấy list hình ảnh của sản phẩm
-        Query query = entityManager.createNativeQuery("SELECT * FROM ProductImage as pi where pi.Id="+id, ProductImage.class);
-        ListImage = query.getResultList();
-
         // Lấy list sản phẩm liên quan
-        query = entityManager.createNativeQuery("SELECT TOP(8) * FROM Product as p1, (SELECT * FROM PRODUCT as p where p.id="+id+") as p2 where p1.id<>p2.id and p1.category_id=p2.category_id", Product.class);
+        Query query = entityManager.createNativeQuery("SELECT TOP(8) * FROM Product as p1, (SELECT * FROM PRODUCT as p where p.id="+id+") as p2 where p1.id<>p2.id and p1.category_id=p2.category_id", Product.class);
         ListRelatedProducts = query.getResultList();
 
         // Đếm tổng số lượt xếp hạng sản phẩm
@@ -157,5 +151,18 @@ public class ProductServiceImpl implements ProductService {
         int newQuantity = product.getQuantity() - quantity;
         product.setQuantity(newQuantity);
         repository.save(product);
+    }
+
+    @Override
+    public void updateQuantityWhenCancelOrder(int productId, int quantity) {
+        Product product = getProductById(productId);
+        int newQuantity = product.getQuantity() + quantity;
+        product.setQuantity(newQuantity);
+        repository.save(product);
+    }
+
+    @Override
+    public List<Rate> listRateByProductId(int id) {
+        return rateRepository.findByProductId(id);
     }
 }

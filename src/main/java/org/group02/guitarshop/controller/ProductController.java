@@ -56,8 +56,8 @@ public class ProductController {
         model.addAttribute("ListCountRate", productService.getListCountRate());
         model.addAttribute("ListRelativeProduct", productService.getListRelatedProducts());
         model.addAttribute("AverageRate", productService.getAverageRate());
-        model.addAttribute("ListImage", productService.getProductImage());
         model.addAttribute("ListComment", commentService.findAllCommentOfProduct(id));
+        model.addAttribute("rateList", productService.listRateByProductId(id));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Message msg = new Message("", "", "", product);
         String email = auth.getName();

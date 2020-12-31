@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -33,23 +34,20 @@ public class ForgotPasswordController {
     }
 
     @PostMapping("/forgot_password")
-    public String processForgotPassword(HttpServletRequest request, Model model) {
+    public String processForgotPassword(HttpServletRequest request, Model model, RedirectAttributes ra) throws UnsupportedEncodingException, MessagingException {
         String email = request.getParameter("email");
-        String token = RandomString.make(30);
-
-        try {
+        User user = userService.findUserByEmail(email);
+        if(user == null){
+            ra.addFlashAttribute("error","No account registered with this Email!!!");
+        }
+        else {
+            String token = RandomString.make(30);
             userService.updateResetPasswordToken(token, email);
             String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
-            model.addAttribute("message", "GuitarShop đã gửi đường dẫn Reset Mật khẩu tới Email của bạn.");
-
-        } catch (IOException ex) {
-            model.addAttribute("error", ex.getMessage());
-        } catch (MessagingException e) {
-            model.addAttribute("error", "Không gửi đc Email.");
+            ra.addFlashAttribute("message", "We've sent reset password link to your Email!!!");
         }
-
-        return "main/message";
+        return "redirect:/forgot_password";
     }
 
     public void sendEmail(String recipientEmail, String link)
@@ -60,14 +58,14 @@ public class ForgotPasswordController {
         helper.setFrom("guitarshop@gmail.com", "GuitarShop");
         helper.setTo(recipientEmail);
 
-        String subject = "Guitar Shop - Reset Mật khẩu";
+        String subject = "Guitar Shop - Reset Password";
 
-        String content = "<p>Chào bạn,</p>"
-                + "<p>Chúng tôi đã nhận được yêu cầu Reset Mật khẩu của bạn.</p>"
-                + "<p>Click vào link bên dưới để đổi mật khẩu:</p>"
-                + "<p><a href=\"" + link + "\">Reset Mật khẩu</a></p>"
+        String content = "<p>Hello,</p>"
+                + "<p>We've received your reset password request.</p>"
+                + "<p>Clink the following link to reset your password: </p>"
+                + "<p><a href=\"" + link + "\">Reset Password</a></p>"
                 + "<br>"
-                + "<p>Bỏ qua Mail này nếu bạn đã đăng nhập được hoặc bạn không gửi yêu cầu Reset mật khảu.</p>";
+                + "<p>Skip this Email if you've already logged in or you haven't sent this request.</p>";
 
         helper.setSubject(subject);
 
@@ -81,7 +79,7 @@ public class ForgotPasswordController {
         User user = userService.getByResetPasswordToken(token);
         model.addAttribute("token", token);
         if (user == null) {
-            model.addAttribute("message", "Token không tồn tại!!!");
+            model.addAttribute("message", "Token doesn't exist!!!");
             return "main/message";
         }
         return "main/reset_password_form";
@@ -93,17 +91,15 @@ public class ForgotPasswordController {
         String password = request.getParameter("password");
 
         User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("title", "Reset mật khẩu");
+        model.addAttribute("title", "Reset Password");
 
         if (user == null) {
-            model.addAttribute("message", "Token không tồn tại!!!");
-            return "main/message";
+            model.addAttribute("message", "Token doesn't exist!!!");
+            return "main/reset_fail";
         } else {
             userService.updatePassword(user, password);
-
-            model.addAttribute("message", "Bạn đã đổi mật khẩu thành công!!!");
+            model.addAttribute("message", "Your password is Reset!!!");
         }
-
-        return "main/message";
+        return "main/reset_success";
     }
 }

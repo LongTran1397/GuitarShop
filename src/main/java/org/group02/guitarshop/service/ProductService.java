@@ -1,9 +1,6 @@
 package org.group02.guitarshop.service;
 
-import org.group02.guitarshop.entity.Category;
-import org.group02.guitarshop.entity.Manufacturer;
-import org.group02.guitarshop.entity.Product;
-import org.group02.guitarshop.entity.ProductImage;
+import org.group02.guitarshop.entity.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +17,11 @@ public interface ProductService {
     int[] getListCountRate();
     List<Product> getListRelatedProducts();
     double getAverageRate();
-    List<ProductImage> getProductImage();
     List<Product> listAll();
     Optional<Product> findById(int id);
     Product save(Product product);
     void deleteById(int id);
     void updateQuantity(int productId, int quantity);
+    void updateQuantityWhenCancelOrder(int productId, int quantity);
+    List<Rate> listRateByProductId(int id);
 }

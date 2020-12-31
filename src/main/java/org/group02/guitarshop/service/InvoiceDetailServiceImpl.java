@@ -12,4 +12,16 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService {
 
     @Override
     public void insertInvoiceDetail(InvoiceDetail invoiceDetail) { repository.save(invoiceDetail); }
+
+    @Override
+    public InvoiceDetail findById(int iId, int pId) {
+        return repository.findByInvoiceByIdInvoiceAndProductByIdProduct(iId, pId);
+    }
+
+    @Override
+    public void save(InvoiceDetail invoiceDetail) {
+        repository.save(invoiceDetail);
+    }
+
+
 }

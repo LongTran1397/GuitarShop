@@ -12,5 +12,4 @@ public class GuitarShopApplication {
     public static void main(String[] args) {
         SpringApplication.run(GuitarShopApplication.class, args);
     }
-
 }

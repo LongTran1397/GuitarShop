@@ -43,7 +43,7 @@
                                     <th:block th:with="discountPrice=${product.price}*(100 - ${product.discountAmount})/100">
                                         <td>
                                             <div class="media">
-                                                <img alt="" class="img-fluid" th:src="${product.imageThumbnail}">
+                                                <img alt="" class="img-fluid" th:src="${product.getImagePath()}">
                                                 <div class="media-body">
                                                     <a th:href="@{~/chi-tiet/id=${product.id}}">
                                                         <h5 th:text="${product.name}"></h5>

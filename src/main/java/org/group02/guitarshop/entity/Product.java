@@ -66,9 +66,6 @@ public class Product {
     private Manufacturer manufacturerByIdManufacturer;
 
     @OneToMany(mappedBy = "productByIdProduct")
-    private Collection<ProductImage> productImagesById;
-
-    @OneToMany(mappedBy = "productByIdProduct")
     private Collection<Rate> ratesById;
 
     @OneToMany(mappedBy = "product")

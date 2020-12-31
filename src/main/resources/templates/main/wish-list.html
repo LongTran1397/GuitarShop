@@ -42,7 +42,7 @@
                                     <th:block th:with="discountPrice=${product.price}*(100 - ${product.discountAmount})/100">
                                         <td>
                                             <div class="media">
-                                                <img alt="" class="img-fluid" th:src="${product.imageThumbnail}">
+                                                <img alt="" class="img-fluid" th:src="${product.getImagePath()}">
                                                 <div class="media-body">
                                                     <a th:href="@{~/chi-tiet/id=${product.id}}">
                                                         <h5 th:text="${product.name}"></h5>
@@ -70,15 +70,12 @@
                         </table>
                     </div>
                     <hr/>
-                    <th:block th:if="${session.sessionDiscountCode!=null}">
-                        <div class="bottom_button row justify-content-end align-items-center">
-                            <div class="applied_code">
-                                <span class="applied_code">[[${session.sessionDiscountCode.code}]]</span>
-                                <a href="#" id="delete_discount_code" title="Remove coupon"><i class="ti-close"></i></a>
-                            </div>
-                        </div>
-                    </th:block>
-                    <div id="test-key"></div>
+                </th:block>
+                <th:block th:if="${session.sessionWishList}==null">
+                    <div class="justify-content-center">
+                        <p>Your Wish List is empty. </p>
+                        <a class="primary-btn" href="/">Home</a>
+                    </div>
                 </th:block>
             </div>
         </div>

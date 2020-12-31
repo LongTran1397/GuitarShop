@@ -195,7 +195,6 @@ public class CartController {
         model.addAttribute("ListCountRate", productService.getListCountRate());
         model.addAttribute("ListRelativeProduct", productService.getListRelatedProducts());
         model.addAttribute("AverageRate", productService.getAverageRate());
-        model.addAttribute("ListImage", productService.getProductImage());
         model.addAttribute("comment", new Message("", "", "", product));
         return "redirect:/chi-tiet/?id="+product.getId();
     }
@@ -257,7 +256,7 @@ public class CartController {
             productService.updateQuantity(product.getId(), quantity);
             Integer key = entry.getKey();
             CartItemModel value = new CartItemModel(entry.getValue());
-            InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, value.getProduct().getId(), value.getQuantity());
+            InvoiceDetail invoiceDetail = new InvoiceDetail(invoiceId, value.getProduct().getId(), value.getQuantity(), false);
             invoiceDetail.setInvoiceByIdInvoice(invoiceService.getInvoiceById(invoiceId));
             invoiceDetail.setProductByIdProduct(productService.getProductById(value.getProduct().getId()));
             invoiceDetailService.insertInvoiceDetail(invoiceDetail);
